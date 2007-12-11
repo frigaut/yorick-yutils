@@ -1,0 +1,109 @@
+Package: yutils
+Kind: package
+Version: 1.2.0
+Revision: 2
+Description: Utility library of interpreted routines
+License: GPLv2
+Author: Eric Thiebaut, Francois Rigaut, Bertrand Aracil
+Maintainer: Francois Rigaut <frigaut@users.sourceforge.net>
+OS: macosx,linux,windows
+Depends: yorick(>=1.5.10)
+Source: http://www.maumae.net/yorick/packages/tarballs/yutils-%v-pkg.tgz
+Source-MD5: 
+Source-Directory: contrib/
+DocFiles: README TODO VERSION NEWS LEGAL doc/README:README.doc doc/FILE_FORMATS doc/*.doc doc/*.pdf doc/*.ps doc/*.tex
+Homepage: http://www.maumae.net/yorick/yutils/doc/
+DescDetail: <<
+yutils contains a collection of utility functions, ranging from plotting, to system access, to math. More details:
+/* yutil Yorick package, version 1.1.1
+ * Authors: E.Thiebault, F.Rigaut, B.Aracil
+ * last revision/addition: 2005nov07
+ *
+ * This program is free software; you can redistribute it and/or  modify it
+ * under the terms of the GNU General Public License  as  published  by the
+ * Free Software Foundation; either version 2 of the License,  or  (at your
+ * option) any later version.
+ *
+ * This program is distributed in the hope  that  it  will  be  useful, but
+ * WITHOUT  ANY   WARRANTY;   without   even   the   implied   warranty  of
+ * MERCHANTABILITY or  FITNESS  FOR  A  PARTICULAR  PURPOSE.   See  the GNU
+ * General Public License for more details (to receive a  copy  of  the GNU
+ * General Public License, write to the Free Software Foundation, Inc., 675
+ * Mass Ave, Cambridge, MA 02139, USA).
+*/
+
+1. Content:
+----------
+README
+LICENSE
+astro_util1.i
+check.i
+constants.i
+copy_plot.i
+detect.i
+fft_utils.i
+histo.i
+idl-colors.i
+img.i
+linalg.i
+lmfit.i
+plot_demo2.i
+plot_demo.i
+plot.i
+plvp.i
+poly.i
+pyk.i
+random_et.i
+rdcols.i
+rgb.i
+util_fr.i
+utils.i
+
+Set of utility routines for yorick.
+
+2. Authors:
+----------
+Mostly from E.Thiebault, some from F.Rigaut and B.Aracil
+
+3. Installation:
+---------------
+
+On a *nix system, you can run the installation as follow:
+yorick -batch makenix.i install
+
+On windows, or if you want to do it by hand, do the following:
+ a. Copy all files in Y_SITE/contrib/ (create the directory if needed)
+ b. Copy yutils_start.i in Y_SITE/i-start/
+
+You may want to run "check-yutils.i", as in :
+yorick -i check-yutils.i
+at the shell prompt, or start yorick and type
+#include "check-yutils.i"
+
+4. Documentation
+----------------
+All function manpages are accessible through the regular
+help,function
+
+See http://www.maumae.net/yorick for the html help pages.
+
+5. History
+----------
+  2007dec11:
+    * various fixes (sky in astro_utils, round in util_fr)
+    * Homogeneized/changed licences to GPLv2
+    * gotten rid of pdb_utils for license issues
+    * added pyk.py
+    * modified idl-colors.i and pyk.i to search the whole path for include files
+    * fixed paths in rgb.i and added error checking.
+
+  2005nov07: 
+    * slight updates to plvp.i
+    * moved to version 1.1 (from 0.5.3).
+<<
+DescUsage: <<
+See contrib/check-yutils.i for a test suite. Type 
+"yorick -i check-yutils.i" (in this directory) in a terminal to run it.
+<<
+DescPort: <<
+<<
