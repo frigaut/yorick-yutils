@@ -21,10 +21,10 @@
  *	675 Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: poly.i,v 1.1 2007-12-11 23:55:13 frigaut Exp $
+ *	$Id: poly.i,v 1.1.1.1 2007-12-11 23:55:13 frigaut Exp $
  *	$Log: poly.i,v $
- *	Revision 1.1  2007-12-11 23:55:13  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:13  frigaut
+ *	Initial Import - yorick-yutils
  *
  */
 

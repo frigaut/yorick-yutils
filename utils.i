@@ -55,10 +55,10 @@
  *      timer_elapsed - get/print the elapsed time since timer_start.
  *
  * History:
- *	$Id: utils.i,v 1.1 2007-12-11 23:55:13 frigaut Exp $
+ *	$Id: utils.i,v 1.1.1.1 2007-12-11 23:55:13 frigaut Exp $
  *	$Log: utils.i,v $
- *	Revision 1.1  2007-12-11 23:55:13  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:13  frigaut
+ *	Initial Import - yorick-yutils
  *
  *	Revision 1.12  2004/10/14 09:51:37  eric
  *	 - Unused (to my knowledge) function "filenameof" removed,

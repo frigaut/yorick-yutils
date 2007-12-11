@@ -27,10 +27,10 @@
  *-----------------------------------------------------------------------------
  *
  * History:
- *	$Id: linalg.i,v 1.1 2007-12-11 23:55:10 frigaut Exp $
+ *	$Id: linalg.i,v 1.1.1.1 2007-12-11 23:55:10 frigaut Exp $
  *	$Log: linalg.i,v $
- *	Revision 1.1  2007-12-11 23:55:10  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:10  frigaut
+ *	Initial Import - yorick-yutils
  *
  */
 

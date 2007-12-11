@@ -21,10 +21,10 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: plot_demo.i,v 1.1 2007-12-11 23:55:14 frigaut Exp $
+ *	$Id: plot_demo.i,v 1.1.1.1 2007-12-11 23:55:14 frigaut Exp $
  *	$Log: plot_demo.i,v $
- *	Revision 1.1  2007-12-11 23:55:14  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:14  frigaut
+ *	Initial Import - yorick-yutils
  *
  *	Revision 1.2  2002/11/14 11:20:52  eric
  *	 - changed paths in require calls

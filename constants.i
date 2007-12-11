@@ -17,10 +17,10 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: constants.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ *	$Id: constants.i,v 1.1.1.1 2007-12-11 23:55:12 frigaut Exp $
  *	$Log: constants.i,v $
- *	Revision 1.1  2007-12-11 23:55:12  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:12  frigaut
+ *	Initial Import - yorick-yutils
  *
  *	Revision 1.4  2003/11/10 12:21:13  eric
  *	 - fixed typo;

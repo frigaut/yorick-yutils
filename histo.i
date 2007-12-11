@@ -26,10 +26,10 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: histo.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ *	$Id: histo.i,v 1.1.1.1 2007-12-11 23:55:12 frigaut Exp $
  *	$Log: histo.i,v $
- *	Revision 1.1  2007-12-11 23:55:12  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:12  frigaut
+ *	Initial Import - yorick-yutils
  *
  *	Revision 1.3  2002/11/14 11:25:08  eric
  *	 - changed paths in require/include calls

@@ -1,7 +1,7 @@
 /* pyk.i
  * 2 way communication interface to python (useful for GUIs)
  * 
- * $Id: pyk.i,v 1.1 2007-12-11 23:55:10 frigaut Exp $
+ * $Id: pyk.i,v 1.1.1.1 2007-12-11 23:55:10 frigaut Exp $
  * 
  * Author: Francois Rigaut
  * Written May 2007

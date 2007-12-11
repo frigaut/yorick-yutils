@@ -20,10 +20,10 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: lmfit.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ *	$Id: lmfit.i,v 1.1.1.1 2007-12-11 23:55:12 frigaut Exp $
  *	$Log: lmfit.i,v $
- *	Revision 1.1  2007-12-11 23:55:12  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:12  frigaut
+ *	Initial Import - yorick-yutils
  *
  *	Revision 1.4  2003/06/17 12:17:10  eric
  *	 - fix doc.

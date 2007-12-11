@@ -18,10 +18,10 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: fft_utils.i,v 1.1 2007-12-11 23:55:14 frigaut Exp $
+ *	$Id: fft_utils.i,v 1.1.1.1 2007-12-11 23:55:14 frigaut Exp $
  *	$Log: fft_utils.i,v $
- *	Revision 1.1  2007-12-11 23:55:14  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:14  frigaut
+ *	Initial Import - yorick-yutils
  *
  *	Revision 1.9  2004/10/11 11:18:21  eric
  *	 -  Fix fft_dist() so that it is as flexible as, e.g., array() for

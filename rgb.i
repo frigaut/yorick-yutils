@@ -20,10 +20,10 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  * 
  * History:
- *	$Id: rgb.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ *	$Id: rgb.i,v 1.1.1.1 2007-12-11 23:55:12 frigaut Exp $
  *	$Log: rgb.i,v $
- *	Revision 1.1  2007-12-11 23:55:12  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:12  frigaut
+ *	Initial Import - yorick-yutils
  *
  *	Revision 1.1  2003/08/23 12:41:48  eric
  *	Initial revision

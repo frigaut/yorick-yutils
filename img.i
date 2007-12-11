@@ -39,10 +39,10 @@
  *	img_tmpnam - get name of temporary file
  *
  * History:
- *	$Id: img.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ *	$Id: img.i,v 1.1.1.1 2007-12-11 23:55:12 frigaut Exp $
  *	$Log: img.i,v $
- *	Revision 1.1  2007-12-11 23:55:12  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:12  frigaut
+ *	Initial Import - yorick-yutils
  *
  *	Revision 1.4  2004/10/14 09:54:53  eric
  *	 - "img_protect_path" and "img_expand_path" removed and replaced by

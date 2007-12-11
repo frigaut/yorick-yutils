@@ -26,10 +26,10 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: plot.i,v 1.1 2007-12-11 23:55:14 frigaut Exp $
+ *	$Id: plot.i,v 1.1.1.1 2007-12-11 23:55:14 frigaut Exp $
  *	$Log: plot.i,v $
- *	Revision 1.1  2007-12-11 23:55:14  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:14  frigaut
+ *	Initial Import - yorick-yutils
  *
  *	Revision 1.10  2002/05/14 10:03:49  eric
  *	 - plp: use directly plfp instead of plmk to plot symbols and ticks.

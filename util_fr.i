@@ -2,7 +2,7 @@
  * util_fr.i
  * A collection of routines for general purpose.
  *
- * $Id: util_fr.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ * $Id: util_fr.i,v 1.1.1.1 2007-12-11 23:55:12 frigaut Exp $
  *
  * Author: Francois Rigaut.
  * Written 2002

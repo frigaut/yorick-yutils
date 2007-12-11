@@ -1,5 +1,5 @@
 /*
- * rdcols.i -- $Id: rdcols.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ * rdcols.i -- $Id: rdcols.i,v 1.1.1.1 2007-12-11 23:55:12 frigaut Exp $
  * routines to assist in reading columns from ascii files
  * 
  * Author: David Munro

@@ -23,7 +23,7 @@
  *	- kolmogorov
  *   Nov. 27, 1995 by Eric THIEBAUT:
  *	- fixed a bug for the borders in kolmogorov
- * 	$Id: random_et.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ * 	$Id: random_et.i,v 1.1.1.1 2007-12-11 23:55:12 frigaut Exp $
  */
 
 require, "gamma.i";

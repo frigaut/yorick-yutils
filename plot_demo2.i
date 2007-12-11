@@ -4,7 +4,7 @@
  *	Demonstration of routines in "plot.i".
  *	Provides routines: plot_demo, plot_demo1, plot_demo2.
  *
- * $Id: plot_demo2.i,v 1.1 2007-12-11 23:55:10 frigaut Exp $
+ * $Id: plot_demo2.i,v 1.1.1.1 2007-12-11 23:55:10 frigaut Exp $
  *
  * Copyright (c) 1996, Eric THIEBAUT (thiebaut@obs.univ-lyon1.fr, Centre de
  * Recherche Astrophysique  de Lyon, 9 avenue Charles  Andre, F-69561 Saint

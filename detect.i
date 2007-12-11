@@ -22,10 +22,10 @@
  *	find_2d_max - find isolated local maxima in 2-D array.
  *
  * History:
- *	$Id: detect.i,v 1.1 2007-12-11 23:55:13 frigaut Exp $
+ *	$Id: detect.i,v 1.1.1.1 2007-12-11 23:55:13 frigaut Exp $
  *	$Log: detect.i,v $
- *	Revision 1.1  2007-12-11 23:55:13  frigaut
- *	Initial revision
+ *	Revision 1.1.1.1  2007-12-11 23:55:13  frigaut
+ *	Initial Import - yorick-yutils
  *
  *
  *-----------------------------------------------------------------------------
