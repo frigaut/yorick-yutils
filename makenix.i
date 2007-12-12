@@ -11,20 +11,14 @@
 
 func yutils_install(void)
 {
-  a=lsdir(Y_SITE+"contrib");
-  if ((numberof(a)==1)&(a==0)) { //contrib does not exist
-    cmd="mkdir "+Y_SITE+"contrib";
-    write,cmd; system,cmd;
-  }
-
   system,"mv makenix.i makenix"; //bad practice, but low risks
 
-  cmd="cp -p *.i "+Y_SITE+"contrib/";
+  cmd="cp -p *.i "+Y_SITE+"i0/";
   write,cmd; system,cmd;
-  cmd="cp -p *.tbl "+Y_SITE+"contrib/";
+  cmd="cp -p *.tbl "+Y_SITE+"i0/";
   write,cmd; system,cmd;
-  cmd="cp -p README "+Y_SITE+"contrib/yutils.README";
-  write,cmd; system,cmd;
+  //  cmd="cp -p README "+Y_SITE+"i0/yutils.README";
+  //  write,cmd; system,cmd;
 
   system,"mv makenix makenix.i";
 
@@ -36,8 +30,8 @@ func yutils_install(void)
     cmd="cp -p yutils_start.i "+Y_SITE+"i-start/";  
     write,cmd; system,cmd;
   }
-  write,"\n Include files copied in "+Y_SITE+"contrib/";
-  write,"Color table copied in "+Y_SITE+"contrib/";
+  write,"\n Include files copied in "+Y_SITE+"i0/";
+  write,"Color table copied in "+Y_SITE+"i0/";
   if ((minorv>=6)||(majorv>=2)) {
     write,"Autoload file copied in "+Y_SITE+"i-start/";
   }
