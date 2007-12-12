@@ -14,10 +14,10 @@ PKG_VERSION = $(shell (awk '{if ($$1=="Version:") print $$2}' $(PKG_NAME).info))
 
 package:
 	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i-start
-	mkdir -p pkg/$(PKG_NAME)/dist/y_site/contrib
-	cp -p *.i pkg/$(PKG_NAME)/dist/y_site/contrib/
-	if test -f "check.i"; then rm pkg/$(PKG_NAME)/dist/y_site/contrib/check.i; fi
-	cp -p *.tbl pkg/$(PKG_NAME)/dist/y_site/contrib/
+	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i0
+	cp -p *.i pkg/$(PKG_NAME)/dist/y_site/i0/
+	if test -f "check.i"; then rm pkg/$(PKG_NAME)/dist/y_site/i0/check.i; fi
+	cp -p *.tbl pkg/$(PKG_NAME)/dist/y_site/i0/
 	if test -f "check.i"; then cp -p check.i pkg/$(PKG_NAME)/.; fi
 	if test -n "$(PKG_I_START)"; then cp -p $(PKG_I_START) \
 	  pkg/$(PKG_NAME)/dist/y_site/i-start/; fi
