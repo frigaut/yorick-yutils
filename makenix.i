@@ -15,7 +15,8 @@ func yutils_install(void)
 
   cmd="cp -p *.i "+Y_SITE+"i0/";
   write,cmd; system,cmd;
-  cmd="cp -p *.tbl "+Y_SITE+"i0/";
+  mkdirp,Y_SITE+"data";
+  cmd="cp -p *.tbl "+Y_SITE+"data/";
   write,cmd; system,cmd;
   //  cmd="cp -p README "+Y_SITE+"i0/yutils.README";
   //  write,cmd; system,cmd;
@@ -31,7 +32,7 @@ func yutils_install(void)
     write,cmd; system,cmd;
   }
   write,"\n Include files copied in "+Y_SITE+"i0/";
-  write,"Color table copied in "+Y_SITE+"i0/";
+  write,"Color table copied in "+Y_SITE+"data/";
   if ((minorv>=6)||(majorv>=2)) {
     write,"Autoload file copied in "+Y_SITE+"i-start/";
   }

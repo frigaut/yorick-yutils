@@ -5,7 +5,7 @@
  *	Provides functions:
  *	  - loadct: load IDL color table / get names of IDL color tables.
  *
- * $Id: idl-colors.i,v 1.1 2007-12-11 23:55:10 frigaut Exp $
+ * $Id: idl-colors.i,v 1.2 2007-12-13 21:15:28 frigaut Exp $
  *
  * Copyright (c) 1996, Eric THIEBAUT (thiebaut@obs.univ-lyon1.fr, Centre de
  * Recherche Astrophysique de Lyon, 9 avenue Charles  Andre,  F-69561 Saint
@@ -35,14 +35,15 @@ func loadct(which, file=)
      returns an array of names of color tables.
 
      Keyword FILE can be used to indicate an alternate file name (default
-     is Y_SITE + "contrib/colors1.tbl").
+     is Y_SITE + "data/colors1.tbl").
 
    SEE ALSO palette.
 */
 {
   /* Open color tables file. */
   if (is_void(file)) {
-    file = find_in_path("colors1.tbl",takefirst=1);
+    file = find_in_path("../data/colors1.tbl",takefirst=1);
+    if (is_void(file)) error,"Can't find colors1.tbl";
   }
   file= open(file, "rb");
 
