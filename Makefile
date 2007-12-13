@@ -12,12 +12,25 @@ PKG_OS =
 PKG_VERSION = $(shell (awk '{if ($$1=="Version:") print $$2}' $(PKG_NAME).info))
 # .info might not exist, in which case he line above will exit in error.
 
+build:
+	@echo "Nothing to build. This is not a plugin"
+	@echo "other targets: install, clean"
+	@echo "for maintainers: package, distpkg"
+
+install:
+	yorick -batch makenix.i install
+
+clean:
+	-rm -rf pkg *~
+
 package:
 	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i-start
 	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i0
+	mkdir -p pkg/$(PKG_NAME)/dist/y_site/python
 	cp -p *.i pkg/$(PKG_NAME)/dist/y_site/i0/
 	if test -f "check.i"; then rm pkg/$(PKG_NAME)/dist/y_site/i0/check.i; fi
 	cp -p *.tbl pkg/$(PKG_NAME)/dist/y_site/i0/
+	cp -p *.py pkg/$(PKG_NAME)/dist/y_site/python/
 	if test -f "check.i"; then cp -p check.i pkg/$(PKG_NAME)/.; fi
 	if test -n "$(PKG_I_START)"; then cp -p $(PKG_I_START) \
 	  pkg/$(PKG_NAME)/dist/y_site/i-start/; fi
