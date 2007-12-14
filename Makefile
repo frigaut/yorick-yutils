@@ -1,3 +1,10 @@
+# these values filled in by    yorick -batch make.i
+Y_MAKEDIR=/usr/lib/yorick/2.1
+Y_EXE=/usr/lib/yorick/2.1/bin/yorick
+Y_EXE_PKGS=
+Y_EXE_HOME=/usr/lib/yorick/2.1
+Y_EXE_SITE=/usr/share/yorick/2.1
+
 # 
 # >>>>  THIS IS NOT A PLUGIN !!!! <<<<
 # 
@@ -6,22 +13,42 @@
 
 PKG_NAME = yutils
 PKG_I_START = yutils_start.i
+PKG_I_EXTRA=astro_util1.i check.i constants.i copy_plot.i detect.i fft_utils.i histo.i idl-colors.i img.i linalg.i lmfit.i makenix.i plot_demo2.i plot_demo.i plot.i plvp.i poly.i pyk.i random_et.i rdcols.i rgb.i util_fr.i utils.i
 
 PKG_OS =
 # ^^^ this should be empty for this package (not a plugin!)
 PKG_VERSION = $(shell (awk '{if ($$1=="Version:") print $$2}' $(PKG_NAME).info))
 # .info might not exist, in which case he line above will exit in error.
 
+include $(Y_MAKEDIR)/Make.cfg
+DEST_Y_SITE=$(DESTDIR)$(Y_SITE)
+DEST_Y_HOME=$(DESTDIR)$(Y_HOME)
+DEST_Y_BINDIR=$(DESTDIR)$(Y_BINDIR)
+
 build:
 	@echo "Nothing to build. This is not a plugin"
 	@echo "other targets: install, clean"
 	@echo "for maintainers: package, distpkg"
 
-install:
-	yorick -batch makenix.i install
-
 clean:
 	-rm -rf pkg *~
+
+install:
+	cp -p *.i $(DEST_Y_SITE)/i0/
+	-rm $(DEST_Y_SITE)/i0/yutils_start.i
+	mkdir -p $(DEST_Y_SITE)/data
+	cp -p colors1.tbl $(DEST_Y_SITE)/data/
+	mkdir -p $(DEST_Y_SITE)/i-start
+	cp -p yutils_start.i $(DEST_Y_SITE)/i-start/
+
+uninstall:
+	@echo removing $(PKG_I_EXTRA)
+	@-for i in $(PKG_I_EXTRA); do \
+		rm $(DEST_Y_SITE)/i0/$$i; \
+        done
+	-rm $(DEST_Y_SITE)/i-start/yutils_start.i
+	-rm $(DEST_Y_SITE)/data/colors1.tbl
+
 
 package:
 	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i-start
