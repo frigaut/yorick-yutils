@@ -1,7 +1,7 @@
 /* pyk.i
  * 2 way communication interface to python (useful for GUIs)
  * 
- * $Id: pyk.i,v 1.1 2007-12-11 23:55:10 frigaut Exp $
+ * $Id: pyk.i,v 1.2 2007-12-17 12:50:51 frigaut Exp $
  * 
  * Author: Francois Rigaut
  * Written May 2007
@@ -41,7 +41,7 @@ func pyk(py_command)
   if (is_void(_pyk_proc)) {
     // start python through pyk.py (includes python initialization):
     pykpy = find_in_path("pyk.py",takefirst=1);
-    if (pykpy==[]) pykpy = find_in_path("python/pyk.py",takefirst=1);
+    if (pykpy==[]) pykpy = find_in_path("../python/pyk.py",takefirst=1);
     if (pykpy==[]) error,"Can't find pyk.py";
     if (pyk_debug) write,format="Init python, loading pyk.py, found at "+pykpy;
     _pyk_proc = spawn(pykpy, _pyk_callback);

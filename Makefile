@@ -1,9 +1,9 @@
 # these values filled in by    yorick -batch make.i
-Y_MAKEDIR=/usr/lib/yorick/2.1
-Y_EXE=/usr/lib/yorick/2.1/bin/yorick
+Y_MAKEDIR=/home/frigaut/yorick-2.1/Linux-i686
+Y_EXE=/home/frigaut/yorick-2.1/Linux-i686/bin/yorick
 Y_EXE_PKGS=
-Y_EXE_HOME=/usr/lib/yorick/2.1
-Y_EXE_SITE=/usr/share/yorick/2.1
+Y_EXE_HOME=/home/frigaut/yorick-2.1/Linux-i686
+Y_EXE_SITE=/home/frigaut/yorick-2.1
 
 # 
 # >>>>  THIS IS NOT A PLUGIN !!!! <<<<
@@ -13,7 +13,7 @@ Y_EXE_SITE=/usr/share/yorick/2.1
 
 PKG_NAME = yutils
 PKG_I_START = yutils_start.i
-PKG_I_EXTRA=astro_util1.i check.i constants.i copy_plot.i detect.i fft_utils.i histo.i idl-colors.i img.i linalg.i lmfit.i makenix.i plot_demo2.i plot_demo.i plot.i plvp.i poly.i pyk.i random_et.i rdcols.i rgb.i util_fr.i utils.i
+PKG_I_EXTRA=astro_util1.i check.i constants.i copy_plot.i detect.i fft_utils.i histo.i idl-colors.i img.i linalg.i lmfit.i plot_demo2.i plot_demo.i plot.i plvp.i poly.i pyk.i random_et.i rdcols.i rgb.i util_fr.i utils.i
 
 PKG_OS =
 # ^^^ this should be empty for this package (not a plugin!)
@@ -38,6 +38,8 @@ install:
 	-rm $(DEST_Y_SITE)/i0/yutils_start.i
 	mkdir -p $(DEST_Y_SITE)/data
 	cp -p colors1.tbl $(DEST_Y_SITE)/data/
+	mkdir -p $(DEST_Y_SITE)/python
+	cp -p pyk.py $(DEST_Y_SITE)/python/
 	mkdir -p $(DEST_Y_SITE)/i-start
 	cp -p yutils_start.i $(DEST_Y_SITE)/i-start/
 
@@ -48,6 +50,7 @@ uninstall:
         done
 	-rm $(DEST_Y_SITE)/i-start/yutils_start.i
 	-rm $(DEST_Y_SITE)/data/colors1.tbl
+	-rm $(DEST_Y_SITE)/python/pyk.py
 
 
 package:
