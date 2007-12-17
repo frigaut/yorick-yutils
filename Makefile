@@ -34,8 +34,8 @@ clean:
 	-rm -rf pkg *~
 
 install:
-	cp -p *.i $(DEST_Y_SITE)/i0/
-	-rm $(DEST_Y_SITE)/i0/yutils_start.i
+	cp -p *.i $(DEST_Y_SITE)/i/
+	-rm $(DEST_Y_SITE)/i/yutils_start.i
 	mkdir -p $(DEST_Y_SITE)/data
 	cp -p colors1.tbl $(DEST_Y_SITE)/data/
 	mkdir -p $(DEST_Y_SITE)/python
@@ -46,7 +46,7 @@ install:
 uninstall:
 	@echo removing $(PKG_I_EXTRA)
 	@-for i in $(PKG_I_EXTRA); do \
-		rm $(DEST_Y_SITE)/i0/$$i; \
+		rm $(DEST_Y_SITE)/i/$$i; \
         done
 	-rm $(DEST_Y_SITE)/i-start/yutils_start.i
 	-rm $(DEST_Y_SITE)/data/colors1.tbl
@@ -55,11 +55,11 @@ uninstall:
 
 package:
 	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i-start
-	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i0
+	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i
 	mkdir -p pkg/$(PKG_NAME)/dist/y_site/python
-	cp -p *.i pkg/$(PKG_NAME)/dist/y_site/i0/
-	if test -f "check.i"; then rm pkg/$(PKG_NAME)/dist/y_site/i0/check.i; fi
-	cp -p *.tbl pkg/$(PKG_NAME)/dist/y_site/i0/
+	cp -p *.i pkg/$(PKG_NAME)/dist/y_site/i/
+	if test -f "check.i"; then rm pkg/$(PKG_NAME)/dist/y_site/i/check.i; fi
+	cp -p *.tbl pkg/$(PKG_NAME)/dist/y_site/i/
 	cp -p *.py pkg/$(PKG_NAME)/dist/y_site/python/
 	if test -f "check.i"; then cp -p check.i pkg/$(PKG_NAME)/.; fi
 	if test -n "$(PKG_I_START)"; then cp -p $(PKG_I_START) \
