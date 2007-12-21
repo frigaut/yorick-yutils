@@ -1,7 +1,7 @@
 /* pyk.i
  * 2 way communication interface to python (useful for GUIs)
  * 
- * $Id: pyk.i,v 1.2 2007-12-17 12:50:51 frigaut Exp $
+ * $Id: pyk.i,v 1.3 2007-12-21 20:51:45 frigaut Exp $
  * 
  * Author: Francois Rigaut
  * Written May 2007
@@ -23,6 +23,11 @@
  *
    Inspired from tyk.i (tcltk interface)
 */
+
+Y_PYTHON = get_env("Y_PYTHON");
+if (noneof(Y_PYTHON))                                                   \
+  Y_PYTHON="./:"+Y_USER+":"+pathform(_(Y_USER,Y_SITES,Y_SITE)+"python/");
+
 
 func pyk(py_command)
 /* DOCUMENT pyk, py_command
@@ -107,8 +112,9 @@ func pyk_import(filename)
   if (strpart(filename,1:1)=="/") { // absolute path
     dirs="";
   } else {
-    dirs = [".","~/yorick","~/Yorick",Y_SITE+"i",Y_SITE+"contrib",
-            Y_SITE+"i0",Y_HOME+"lib"]+"/";
+    dirs = Y_PYTHON;
+    //    dirs = [".","~/yorick","~/Yorick",Y_SITE+"i",Y_SITE+"contrib",
+    //            Y_SITE+"i0",Y_HOME+"lib"]+"/";
   }
 
   for (i=1;i<=numberof(dirs);i++) {
