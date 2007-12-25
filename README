@@ -1,5 +1,5 @@
 /* yutil Yorick package, version 1.2.0
- * Authors: E.Thiebault, F.Rigaut, B.Aracil
+ * Authors: E.Thiebaut, F.Rigaut, B.Aracil
  * last revision/addition: 2007dec11
  *
  * This program is free software; you can redistribute it and/or  modify it
@@ -46,7 +46,7 @@ Set of utility routines for yorick.
 
 2. Authors:
 ----------
-Mostly from E.Thiebault, some from F.Rigaut and B.Aracil
+Mostly from E.Thiebaut, some from F.Rigaut and B.Aracil
 
 3. Installation:
 ---------------
