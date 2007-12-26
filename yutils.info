@@ -1,6 +1,6 @@
 Package: yutils
 Kind: package
-Version: 1.2.0
+Version: 1.2.1
 Revision: 2
 Description: Utility library of interpreted routines
 License: GPLv2
@@ -69,7 +69,7 @@ Mostly from E.Thiebault, some from F.Rigaut and B.Aracil
 ---------------
 
 On a *nix system, you can run the installation as follow:
-yorick -batch makenix.i install
+make install
 
 On windows, or if you want to do it by hand, do the following:
  a. Copy all files in Y_SITE/contrib/ (create the directory if needed)

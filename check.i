@@ -41,7 +41,7 @@ func clmfit(y,x,&a,function,&yfit)
  * SEE ALSO: lmfit
  */
 {
-  system,"rm ./.foo.i";
+  if (open("./.foo.i","r",1)) system,"rm ./.foo.i";
 
   f     = open("./.foo.i","w");
   write,f,"func foo(x,a) {return "+function+";}";
@@ -69,12 +69,11 @@ write,format="Ellapsed time=%f\n",tac();
 write,"pls,smooth(g)";
 fma;
 pls,smooth(g);
-typeReturn;
+pause,1000;
 
 write,"pl3s,smooth(g)";
 fma;
 pl3s,smooth(g),fill=1;
-typeReturn;
 pause,1000;
 
 write,"test of lmfit";
@@ -89,15 +88,17 @@ write,format="Fit parameters: %.2f+%.1f*exp(-(sqrt((x-%.2f)^2"+\
 s=swrite(format="%.1f+%.1f*exp(-(sqrt((x-%.2f)^2^"+\
   "+(y-%.2f)^2^)/%.2f)^2^)\n",a(1),a(2),a(4),a(5),a(3));
 plt,s,-10,n,tosys=1,orient=1,height=10,justify="CC";
-typeReturn;
+pause,1000;
 
+write,"Test of additional color tables";
+for (i=1;i<=41;i++) {loadct,i; pause,100;}
 
 xy = indices([2,64,40]);
 g = exp(-((xy(,,1)-28)/10)^2 - ((xy(,,2)-19)/4)^2.);
-tv,g;
+tv,g,square=1;
 tv,undersample(g,2);
 limits,square=0;
-typeReturn;
+pause,1000;
 
 write,"Ramdom_et and histo tests";
 x = random_poisson(array(10,10000));
