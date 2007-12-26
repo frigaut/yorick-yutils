@@ -1,9 +1,9 @@
 # these values filled in by    yorick -batch make.i
-Y_MAKEDIR=/home/frigaut/yorick-2.1/Linux-i686
-Y_EXE=/home/frigaut/yorick-2.1/Linux-i686/bin/yorick
+Y_MAKEDIR=/usr/lib/yorick
+Y_EXE=/usr/lib/yorick/bin/yorick
 Y_EXE_PKGS=
-Y_EXE_HOME=/home/frigaut/yorick-2.1/Linux-i686
-Y_EXE_SITE=/home/frigaut/yorick-2.1
+Y_EXE_HOME=/usr/lib/yorick
+Y_EXE_SITE=/usr/lib/yorick
 
 # 
 # >>>>  THIS IS NOT A PLUGIN !!!! <<<<
@@ -27,7 +27,7 @@ DEST_Y_BINDIR=$(DESTDIR)$(Y_BINDIR)
 
 build:
 	@echo "Nothing to build. This is not a plugin"
-	@echo "other targets: install, clean"
+	@echo "other targets: install, uninstall, clean"
 	@echo "for maintainers: package, distpkg"
 
 clean:
