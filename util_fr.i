@@ -2,7 +2,7 @@
  * util_fr.i
  * A collection of routines for general purpose.
  *
- * $Id: util_fr.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ * $Id: util_fr.i,v 1.2 2007-12-27 15:22:07 frigaut Exp $
  *
  * Author: Francois Rigaut.
  * Written 2002
@@ -23,6 +23,9 @@
  * General Public License, write to the Free Software Foundation, Inc., 675
  * Mass Ave, Cambridge, MA 02139, USA).
  *
+ * $Log: util_fr.i,v $
+ * Revision 1.2  2007-12-27 15:22:07  frigaut
+ * nothing. commit before tagging.
  *
  */
 

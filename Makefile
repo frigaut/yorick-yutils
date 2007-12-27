@@ -101,6 +101,8 @@ distsrc:
 	   $(PKG_NAME)-$(PKG_VERSION)-src.tgz yorick-$(PKG_NAME)-$(PKG_VERSION);\
 	ncftpput -f $(HOME)/.ncftp/maumae www/yorick/packages/src/ \
 	   $(PKG_NAME)-$(PKG_VERSION)-src.tgz
+	ncftpput -f $(HOME)/.ncftp/maumae www/yorick/contrib/ \
+	   ../$(PKG_NAME)-$(PKG_VERSION)-src.tgz
 
 
 # -------------------------------------------------------- end of Makefile
