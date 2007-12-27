@@ -6,7 +6,7 @@ Description: Utility library of interpreted routines
 License: GPLv2
 Author: Eric Thiebaut, Francois Rigaut, Bertrand Aracil
 Maintainer: Francois Rigaut <frigaut@users.sourceforge.net>
-OS: macosx,linux,windows
+OS: architecture independant
 Depends: yorick(>=1.5.10)
 Source: http://www.maumae.net/yorick/packages/tarballs/yutils-%v-pkg.tgz
 Source-MD5: 

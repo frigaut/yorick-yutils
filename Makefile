@@ -40,6 +40,7 @@ clean:
 	-rm -rf pkg *~
 
 install:
+	mkdir -p $(DEST_Y_SITE)/i
 	mkdir -p $(DEST_Y_SITE)/data
 	mkdir -p $(DEST_Y_SITE)/python
 	mkdir -p $(DEST_Y_SITE)/i-start
@@ -49,7 +50,6 @@ install:
 	cp -p yutils_start.i $(DEST_Y_SITE)/i-start/
 
 uninstall:
-	@echo removing $(PKG_I)
 	-cd $(DEST_Y_SITE)/i; rm $(PKG_I)
 	-rm $(DEST_Y_SITE)/i-start/yutils_start.i
 	-rm $(DEST_Y_SITE)/data/colors1.tbl
@@ -57,29 +57,30 @@ uninstall:
 
 # -------------------------------------------- package build rules
 
-PKG_OS =
-# ^^^ this should be empty for this package (not a plugin!)
 PKG_VERSION = $(shell (awk '{if ($$1=="Version:") print $$2}' $(PKG_NAME).info))
 # .info might not exist, in which case he line above will exit in error.
 
 package:
-	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i-start
 	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i
 	mkdir -p pkg/$(PKG_NAME)/dist/y_site/python
+	mkdir -p pkg/$(PKG_NAME)/dist/y_site/data
+	mkdir -p pkg/$(PKG_NAME)/dist/y_site/i-start
 	cp -p $(PKG_I) pkg/$(PKG_NAME)/dist/y_site/i/
-	-if test -f "check.i"; then rm pkg/$(PKG_NAME)/dist/y_site/i/check.i; fi
-	cp -p *.tbl pkg/$(PKG_NAME)/dist/y_site/i/
-	cp -p *.py pkg/$(PKG_NAME)/dist/y_site/python/
+	cd pkg/$(PKG_NAME)/dist/y_site/i/; if test -f "check.i"; then rm check.i; fi
 	if test -f "check.i"; then cp -p check.i pkg/$(PKG_NAME)/.; fi
+	cp -p *.py pkg/$(PKG_NAME)/dist/y_site/python/
+	cp -p *.tbl pkg/$(PKG_NAME)/dist/y_site/data/
 	if test -n "$(PKG_I_START)"; then cp -p $(PKG_I_START) \
 	  pkg/$(PKG_NAME)/dist/y_site/i-start/; fi
 	cp -p $(PKG_NAME).info pkg/$(PKG_NAME)/$(PKG_NAME).info
 	cd pkg; tar zcvf $(PKG_NAME)-$(PKG_VERSION)-pkg.tgz $(PKG_NAME)
 
 distpkg:
+	#tarball there
 	if test -f "pkg/$(PKG_NAME)-$(PKG_VERSION)-pkg.tgz" ; then \
 	  ncftpput -f $(HOME)/.ncftp/maumae www/yorick/packages/tarballs/ \
 	  pkg/$(PKG_NAME)-$(PKG_VERSION)-pkg.tgz; fi
+	#info files in each architecture directory
 	if test -f "pkg/$(PKG_NAME)/$(PKG_NAME).info" ; then \
 		ncftpput -f $(HOME)/.ncftp/maumae www/yorick/packages/darwin-ppc/info/ \
 		pkg/$(PKG_NAME)/$(PKG_NAME).info; fi
@@ -94,9 +95,10 @@ distpkg:
 		pkg/$(PKG_NAME)/$(PKG_NAME).info; fi
 
 distsrc:
-	make clean; rm -rf pkg
+	make clean
+	-rm -rf pkg
 	cd ..; tar --exclude pkg --exclude .svn -zcvf \
-	   $(PKG_NAME)-$(PKG_VERSION)-src.tgz $(PKG_NAME);\
+	   $(PKG_NAME)-$(PKG_VERSION)-src.tgz yorick-$(PKG_NAME)-$(PKG_VERSION);\
 	ncftpput -f $(HOME)/.ncftp/maumae www/yorick/packages/src/ \
 	   $(PKG_NAME)-$(PKG_VERSION)-src.tgz
 
