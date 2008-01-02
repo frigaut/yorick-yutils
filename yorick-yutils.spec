@@ -1,6 +1,6 @@
 %define name yorick-yutils
-%define version 1.2.0
-%define release gemini2007dec07
+%define version 1.2.1
+%define release gemini2007dec31
 
 Summary: Set of utility interpreted functions for yorick
 Name: %{name}
@@ -51,17 +51,26 @@ utils.i
 %setup -q
 
 %build
+if [ -f check.i ] ; then
+   mv check.i %{name}_check.i
+fi;
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/i0
+mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/i
+mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/data
+mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/python
 mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/i-start
+mkdir -p $RPM_BUILD_ROOT/usr/share/doc/yorick-yutils
 
-install -m 644 *.i $RPM_BUILD_ROOT/usr/lib/yorick/i0
-install -m 644 colors1.tbl $RPM_BUILD_ROOT/usr/lib/yorick/i0
+install -m 644 *.i $RPM_BUILD_ROOT/usr/lib/yorick/i
+install -m 644 colors1.tbl $RPM_BUILD_ROOT/usr/lib/yorick/data
+install -m 644 *.py $RPM_BUILD_ROOT/usr/lib/yorick/python
 install -m 644 *_start.i $RPM_BUILD_ROOT/usr/lib/yorick/i-start
+install -m 644 LICENSE $RPM_BUILD_ROOT/usr/share/doc/yorick-yutils
+install -m 644 README $RPM_BUILD_ROOT/usr/share/doc/yorick-yutils
 
-rm $RPM_BUILD_ROOT/usr/lib/yorick/i0/*_start.i
+rm $RPM_BUILD_ROOT/usr/lib/yorick/i/*_start.i
 
 
 %clean
@@ -69,11 +78,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-/usr/lib/yorick/i0/*.i
-/usr/lib/yorick/i0/colors1.tbl
+/usr/lib/yorick/i/*.i
+/usr/lib/yorick/data/colors1.tbl
+/usr/lib/yorick/python/*.py
 /usr/lib/yorick/i-start/*_start.i
+/usr/share/doc/yorick-yutils/*
 
 %changelog
+* Mon Dec 31 2007 <frigaut@users.sourceforge.net>
+- new distro directory structure
+- updated cvs
 
 * Tue Dec 11 2007 <frigaut@users.sourceforge.net>
 - 1.2.0: various fixes (sky in astro_utils, round in util_fr)
