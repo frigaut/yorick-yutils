@@ -16,7 +16,7 @@ Y_EXE_SITE=/usr/lib/yorick
 # used for distribution
 PKG_NAME = yutils
 # include files for this package
-PKG_I=astro_util1.i constants.i copy_plot.i detect.i fft_utils.i histo.i idl-colors.i img.i linalg.i lmfit.i plot_demo2.i plot_demo.i plot.i plvp.i poly.i pyk.i random_et.i rdcols.i rgb.i util_fr.i utils.i
+PKG_I=astro_util1.i constants.i copy_plot.i detect.i fft_utils.i histo.i idl-colors.i img.i linalg.i lmfit.i plot_demo2.i plot_demo.i plot.i plvp.i poly.i pyk.i random_et.i rdcols.i rgb.i util_fr.i utils.i coords.i doppler.i graphk.i gauss.i tws_button.i tws_field.i tws_grid.i tws.i tws_label.i tws_popup.i tws_radio.i tws_root.i
 # autoload file for this package, if any
 PKG_I_START = yutils_start.i
 
@@ -76,11 +76,11 @@ package:
 	cd pkg; tar zcvf $(PKG_NAME)-$(PKG_VERSION)-pkg.tgz $(PKG_NAME)
 
 distpkg:
-	#tarball there
+#tarball there
 	if test -f "pkg/$(PKG_NAME)-$(PKG_VERSION)-pkg.tgz" ; then \
 	  ncftpput -f $(HOME)/.ncftp/maumae www/yorick/packages/tarballs/ \
 	  pkg/$(PKG_NAME)-$(PKG_VERSION)-pkg.tgz; fi
-	#info files in each architecture directory
+#info files in each architecture directory
 	if test -f "pkg/$(PKG_NAME)/$(PKG_NAME).info" ; then \
 		ncftpput -f $(HOME)/.ncftp/maumae www/yorick/packages/darwin-ppc/info/ \
 		pkg/$(PKG_NAME)/$(PKG_NAME).info; fi

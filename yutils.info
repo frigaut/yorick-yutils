@@ -1,10 +1,10 @@
 Package: yutils
 Kind: package
-Version: 1.2.1
+Version: 1.3.0
 Revision: 2
 Description: Utility library of interpreted routines
 License: GPLv2
-Author: Eric Thiebaut, Francois Rigaut, Bertrand Aracil
+Author: Eric Thiebaut, Francois Rigaut, Bertrand Aracil, Thibaut Paumard
 Maintainer: Francois Rigaut <frigaut@users.sourceforge.net>
 OS: architecture independant
 Depends: yorick(>=1.5.10)
@@ -16,7 +16,7 @@ Homepage: http://www.maumae.net/yorick/yutils/doc/
 DescDetail: <<
 yutils contains a collection of utility functions, ranging from plotting, to system access, to math. More details:
 /* yutil Yorick package, version 1.1.1
- * Authors: E.Thiebault, F.Rigaut, B.Aracil
+ * Authors: E.Thiebault, F.Rigaut, B.Aracil, T.Paumard
  * last revision/addition: 2005nov07
  *
  * This program is free software; you can redistribute it and/or  modify it
@@ -58,27 +58,32 @@ rdcols.i
 rgb.i
 util_fr.i
 utils.i
+coords.i
+doppler.i
+graphk.i
+gauss.i
+tws*.i
 
 Set of utility routines for yorick.
 
 2. Authors:
 ----------
-Mostly from E.Thiebault, some from F.Rigaut and B.Aracil
+Mostly from E.Thiebaut, some from F.Rigaut, B.Aracil and T.Paumard
 
 3. Installation:
 ---------------
 
-On a *nix system, you can run the installation as follow:
-make install
+On a *nix system:
+[sudo] make install
 
 On windows, or if you want to do it by hand, do the following:
  a. Copy all files in Y_SITE/contrib/ (create the directory if needed)
  b. Copy yutils_start.i in Y_SITE/i-start/
-
-You may want to run "check-yutils.i", as in :
-yorick -i check-yutils.i
+ 
+You may want to run "check.i", as in :
+yorick -i check.i
 at the shell prompt, or start yorick and type
-#include "check-yutils.i"
+#include "check.i"
 
 4. Documentation
 ----------------
@@ -89,6 +94,12 @@ See http://www.maumae.net/yorick for the html help pages.
 
 5. History
 ----------
+  $Log: yutils.info,v $
+  Revision 1.4  2008-01-04 15:05:13  frigaut
+  - updated Makefile README yorick-yutils.spec yutils.info to include
+  new tws*.i files from thibaut
+
+  
   2007dec11:
     * various fixes (sky in astro_utils, round in util_fr)
     * Homogeneized/changed licences to GPLv2

@@ -1,5 +1,6 @@
 /* yutil Yorick package, version 1.2.0
- * Authors: E.Thiebaut, F.Rigaut, B.Aracil
+ * Authors: E.Thiebaut, F.Rigaut, B.Aracil, T.Paumard
+ * Copyright 2007, E.Thiebaut, F.Rigaut, B.Aracil, T.Paumard
  * last revision/addition: 2007dec11
  *
  * This program is free software; you can redistribute it and/or  modify it
@@ -41,27 +42,32 @@ rdcols.i
 rgb.i
 util_fr.i
 utils.i
+coords.i
+doppler.i
+graphk.i
+gauss.i
+tws*.i
 
 Set of utility routines for yorick.
 
 2. Authors:
 ----------
-Mostly from E.Thiebaut, some from F.Rigaut and B.Aracil
+Mostly from E.Thiebaut, some from F.Rigaut, B.Aracil and T.Paumard
 
 3. Installation:
 ---------------
 
-On a *nix system, you can run the installation as follow:
-yorick -batch makenix.i install
+On a *nix system:
+[sudo] make install
 
 On windows, or if you want to do it by hand, do the following:
  a. Copy all files in Y_SITE/contrib/ (create the directory if needed)
  b. Copy yutils_start.i in Y_SITE/i-start/
-
-You may want to run "check-yutils.i", as in :
-yorick -i check-yutils.i
+ 
+You may want to run "check.i", as in :
+yorick -i check.i
 at the shell prompt, or start yorick and type
-#include "check-yutils.i"
+#include "check.i"
 
 4. Documentation
 ----------------
@@ -72,6 +78,12 @@ See http://www.maumae.net/yorick for the html help pages.
 
 5. History
 ----------
+  $Log: README,v $
+  Revision 1.3  2008-01-04 15:05:13  frigaut
+  - updated Makefile README yorick-yutils.spec yutils.info to include
+  new tws*.i files from thibaut
+
+
   2007dec11:
     * various fixes (sky in astro_utils, round in util_fr)
     * Homogeneized/changed licences to GPLv2

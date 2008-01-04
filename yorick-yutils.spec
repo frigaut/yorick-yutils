@@ -1,6 +1,6 @@
 %define name yorick-yutils
-%define version 1.2.1
-%define release gemini2007dec31
+%define version 1.3.0
+%define release gemini2008jan04
 
 Summary: Set of utility interpreted functions for yorick
 Name: %{name}
@@ -18,7 +18,8 @@ BuildArch: noarch
 
 %description
 yutils contains a collection of utility functions, ranging from
-plotting, to system access, to math. More details:
+plotting, to system access, to math and coordinates transforms.
+More details:
 
 1. Content:
 README
@@ -45,7 +46,11 @@ rdcols.i
 rgb.i
 util_fr.i
 utils.i
-
+coords.i
+doppler.i
+graphk.i
+gauss.i
+tws*.i
 
 %prep
 %setup -q
@@ -85,6 +90,11 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/doc/yorick-yutils/*
 
 %changelog
+* Fri Jan 04 2008 <frigaut@users.sourceforge.net>
+- added files from Thibaut Paumard (coords, graphk, doppler, gauss, tws*)
+- updated Makefile, README, info file
+- bumped to v1.3.0
+
 * Mon Dec 31 2007 <frigaut@users.sourceforge.net>
 - new distro directory structure
 - updated cvs
