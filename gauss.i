@@ -1,7 +1,7 @@
 /*
  * gauss.i
  *
- * $Id: gauss.i,v 1.1 2008-01-04 13:47:48 frigaut Exp $
+ * $Id: gauss.i,v 1.2 2008-01-04 14:35:40 frigaut Exp $
  *
  * This file is part of Yutils
  * Copyright (C) 2007  Thibaut Paumard <paumard@users.sourceforge.net>
@@ -21,7 +21,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  * $Log: gauss.i,v $
- * Revision 1.1  2008-01-04 13:47:48  frigaut
+ * Revision 1.2  2008-01-04 14:35:40  frigaut
+ * - changed path for require statement
+ *
+ * Revision 1.1  2008/01/04 13:47:48  frigaut
  * initial import of thibaut's functions
  *
  *
@@ -168,7 +171,7 @@ func asgauss_fit(y,x,w,guess=,nterms=){
 
    SEE ALSO: asgauss, gauss, gauss_fit
 */
-    require,"Eric/lmfit.i";
+    require,"lmfit.i";
     if (is_void(x)) x=indgen(numberof(y));
     if (is_void(guess)) {
         if (is_void(nterms)) nterms=4;
