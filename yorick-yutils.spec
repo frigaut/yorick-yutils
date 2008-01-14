@@ -1,6 +1,6 @@
 %define name yorick-yutils
 %define version 1.3.0
-%define release gemini2008jan04
+%define release gemini2008jan09
 
 Summary: Set of utility interpreted functions for yorick
 Name: %{name}
@@ -67,13 +67,15 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/data
 mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/python
 mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/i-start
 mkdir -p $RPM_BUILD_ROOT/usr/share/doc/yorick-yutils
-
+mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/packages/installed
+        
 install -m 644 *.i $RPM_BUILD_ROOT/usr/lib/yorick/i
 install -m 644 colors1.tbl $RPM_BUILD_ROOT/usr/lib/yorick/data
 install -m 644 *.py $RPM_BUILD_ROOT/usr/lib/yorick/python
 install -m 644 *_start.i $RPM_BUILD_ROOT/usr/lib/yorick/i-start
 install -m 644 LICENSE $RPM_BUILD_ROOT/usr/share/doc/yorick-yutils
 install -m 644 README $RPM_BUILD_ROOT/usr/share/doc/yorick-yutils
+install -m 644 yutils.info $RPM_BUILD_ROOT/usr/lib/yorick/packages/installed
 
 rm $RPM_BUILD_ROOT/usr/lib/yorick/i/*_start.i
 
@@ -88,8 +90,12 @@ rm -rf $RPM_BUILD_ROOT
 /usr/lib/yorick/python/*.py
 /usr/lib/yorick/i-start/*_start.i
 /usr/share/doc/yorick-yutils/*
+/usr/lib/yorick/packages/installed/*
 
 %changelog
+* Tue Jan 09 2008 <frigaut@users.sourceforge.net>
+- included the info file for compat with pkg_mngr
+
 * Fri Jan 04 2008 <frigaut@users.sourceforge.net>
 - added files from Thibaut Paumard (coords, graphk, doppler, gauss, tws*)
 - updated Makefile, README, info file
