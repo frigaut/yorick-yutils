@@ -97,7 +97,7 @@ distpkg:
 distsrc:
 	make clean
 	-rm -rf pkg
-	cd ..; tar --exclude pkg --exclude .svn -zcvf \
+	cd ..; tar --exclude pkg --exclude .svn --exclude CVS --exclude *.spec -zcvf \
 	   $(PKG_NAME)-$(PKG_VERSION)-src.tgz yorick-$(PKG_NAME)-$(PKG_VERSION);\
 	ncftpput -f $(HOME)/.ncftp/maumae www/yorick/packages/src/ \
 	   $(PKG_NAME)-$(PKG_VERSION)-src.tgz

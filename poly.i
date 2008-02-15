@@ -21,11 +21,14 @@
  *	675 Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: poly.i,v 1.1 2007-12-11 23:55:13 frigaut Exp $
+ *	$Id: poly.i,v 1.2 2008-02-15 18:41:59 frigaut Exp $
  *	$Log: poly.i,v $
- *	Revision 1.1  2007-12-11 23:55:13  frigaut
- *	Initial revision
+ *	Revision 1.2  2008-02-15 18:41:59  frigaut
+ *	UTF-> ascii issue
  *
+ *	Revision 1.1.1.1  2007/12/11 23:55:13  frigaut
+ *	Initial Import - yorick-yutils
+ *	
  */
 
 func poly1(x, c)
@@ -45,7 +48,7 @@ func poly1_deriv(x, c)
      Returns value of the derivative of the 1D polynomial:
        C(1) + C(2)*X + C(3)*X^2 + ... 
      in other words:
-       Y= C(2) + 2*C(3)*X + 3*C(4)*X² + ...
+       Y= C(2) + 2*C(3)*X + 3*C(4)*X^2 + ...
 
    SEE ALSO: poly1. */
 {
