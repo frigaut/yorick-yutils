@@ -5,7 +5,7 @@
  *
  *-----------------------------------------------------------------------------
  *
- * Copyright (c) 2000-2004, Eric Thiébaut (Centre de Recherches
+ * Copyright (c) 2000-2004, Eric Thiebaut (Centre de Recherches
  *	Astronomiques de Lyon).
  *
  * This program is free software; you can redistribute it and/or  modify it
@@ -39,11 +39,14 @@
  *	img_tmpnam - get name of temporary file
  *
  * History:
- *	$Id: img.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ *	$Id: img.i,v 1.2 2008-02-15 18:55:27 frigaut Exp $
  *	$Log: img.i,v $
- *	Revision 1.1  2007-12-11 23:55:12  frigaut
- *	Initial revision
+ *	Revision 1.2  2008-02-15 18:55:27  frigaut
+ *	fixed UTF-8 encoding problems (crash yorick-doc on amd64)
  *
+ *	Revision 1.1.1.1  2007/12/11 23:55:12  frigaut
+ *	Initial Import - yorick-yutils
+ *	
  *	Revision 1.4  2004/10/14 09:54:53  eric
  *	 - "img_protect_path" and "img_expand_path" removed and replaced by
  *	   their counterparts, "expand_file_name" and "expand_file_name",

@@ -17,11 +17,14 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: constants.i,v 1.1 2007-12-11 23:55:12 frigaut Exp $
+ *	$Id: constants.i,v 1.2 2008-02-15 18:55:27 frigaut Exp $
  *	$Log: constants.i,v $
- *	Revision 1.1  2007-12-11 23:55:12  frigaut
- *	Initial revision
+ *	Revision 1.2  2008-02-15 18:55:27  frigaut
+ *	fixed UTF-8 encoding problems (crash yorick-doc on amd64)
  *
+ *	Revision 1.1.1.1  2007/12/11 23:55:12  frigaut
+ *	Initial Import - yorick-yutils
+ *	
  *	Revision 1.4  2003/11/10 12:21:13  eric
  *	 - fixed typo;
  *
@@ -252,8 +255,8 @@ ElectronMass          = 9.1093897e-31;
 ProtonMass            = 1.6726231e-27;
 NeutronMass           = 1.6749540e-27;
 ElementaryMassUnit    = 1.6605656e-27;
-UnifiedAtomicMassUnit = 1.6605402e-27; // ± 0.0000010e-27
-ElementaryCharge      = 1.60217733e-19; // ± 0.00000049e-19 C
+UnifiedAtomicMassUnit = 1.6605402e-27; // +/- 0.0000010e-27
+ElementaryCharge      = 1.60217733e-19; // +/- 0.00000049e-19 C
 FineStructureConstant = ElementaryCharge^2/(2.0*PlanckConstant*LightSpeed
                                             *VacuumPermittivity);
 BohrMagneton          = ElementaryCharge*PlanckConstant/(4.0*Pi*ElectronMass);

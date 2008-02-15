@@ -3,7 +3,7 @@
  *
  *	General purpose utility routines for Yorick.
  *
- * Copyright (c) 1996-2004, Eric Thiébaut, Observatoire de Lyon (France).
+ * Copyright (c) 1996-2004, Eric Thiebaut, Observatoire de Lyon (France).
  *
  * This program is free software; you can redistribute it and/or  modify it
  * under the terms of the GNU General Public License  as  published  by the
@@ -55,11 +55,14 @@
  *      timer_elapsed - get/print the elapsed time since timer_start.
  *
  * History:
- *	$Id: utils.i,v 1.1 2007-12-11 23:55:13 frigaut Exp $
+ *	$Id: utils.i,v 1.2 2008-02-15 18:55:30 frigaut Exp $
  *	$Log: utils.i,v $
- *	Revision 1.1  2007-12-11 23:55:13  frigaut
- *	Initial revision
+ *	Revision 1.2  2008-02-15 18:55:30  frigaut
+ *	fixed UTF-8 encoding problems (crash yorick-doc on amd64)
  *
+ *	Revision 1.1.1.1  2007/12/11 23:55:13  frigaut
+ *	Initial Import - yorick-yutils
+ *	
  *	Revision 1.12  2004/10/14 09:51:37  eric
  *	 - Unused (to my knowledge) function "filenameof" removed,
  *	   it is superseded by "get_file_name".

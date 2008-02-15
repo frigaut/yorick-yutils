@@ -27,11 +27,14 @@
  *-----------------------------------------------------------------------------
  *
  * History:
- *	$Id: linalg.i,v 1.1 2007-12-11 23:55:10 frigaut Exp $
+ *	$Id: linalg.i,v 1.2 2008-02-15 18:55:28 frigaut Exp $
  *	$Log: linalg.i,v $
- *	Revision 1.1  2007-12-11 23:55:10  frigaut
- *	Initial revision
+ *	Revision 1.2  2008-02-15 18:55:28  frigaut
+ *	fixed UTF-8 encoding problems (crash yorick-doc on amd64)
  *
+ *	Revision 1.1.1.1  2007/12/11 23:55:10  frigaut
+ *	Initial Import - yorick-yutils
+ *	
  */
 
 func gram_schmidt_orthonormalization(b)
@@ -234,7 +237,7 @@ func cholesky(a, raw)
 {
   if (! is_array(a) || structof(a) == complex ||
       (dims = dimsof(a))(1) != 2 || (n = dims(2)) != dims(3))
-    error, "expecting a N × N non-complex array";
+    error, "expecting a N x N non-complex array";
   a = double(a);
 
   if ((s = a(1,1)) <= 0.0) error, "the matrix is not positive definite";
