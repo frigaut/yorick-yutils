@@ -389,12 +389,12 @@ func makeflat(biasfile,flatfiles)
   
 {
   print,"Reading arrays, assuming Unsigned Integers";
-  bias = float(fitsRead(biasfile));
+  bias = float(fits_read(biasfile));
   dx = (dimsof(bias))(2);
   dy = (dimsof(bias))(3);
   cube = array(float,dx,dy,numberof(flatfiles));
   for (i=1 ; i<=numberof(flatfiles) ; i++) {
-    cube(,,i) = float(uint(fitsRead(flatfiles(i))))-bias;
+    cube(,,i) = float(uint(fits_read(flatfiles(i))))-bias;
     mx = avg(median(cube(,,i)));
     cube(,,i) = cube(,,i)/mx;
   }
@@ -416,13 +416,13 @@ func makebias(biasfiles)
 
 {
   print,"Reading arrays, assuming Unsigned Integers";
-  im = uint(fitsRead(biasfiles(0)));
+  im = uint(fits_read(biasfiles(0)));
   dx = (dimsof(im))(2);
   dy = (dimsof(im))(3);
   cube = array(int,dx,dy,numberof(biasfiles));
   cube(,,1) = im;
   for (i=2 ; i<=numberof(biasfiles) ; i++) {
-    cube(,,i) = uint(fitsRead(biasfiles(i)));}
+    cube(,,i) = uint(fits_read(biasfiles(i)));}
   print,"Computing median from cube"
     bias = median(cube,3);
   return bias;
