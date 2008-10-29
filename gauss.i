@@ -1,7 +1,7 @@
 /*
  * gauss.i
  *
- * $Id: gauss.i,v 1.2 2008-01-04 14:35:40 frigaut Exp $
+ * $Id: gauss.i,v 1.3 2008-10-29 15:54:21 paumard Exp $
  *
  * This file is part of Yutils
  * Copyright (C) 2007  Thibaut Paumard <paumard@users.sourceforge.net>
@@ -21,7 +21,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  * $Log: gauss.i,v $
- * Revision 1.2  2008-01-04 14:35:40  frigaut
+ * Revision 1.3  2008-10-29 15:54:21  paumard
+ * gauss.i: add gauss2d()
+ *
+ * Revision 1.2  2008/01/04 14:35:40  frigaut
  * - changed path for require statement
  *
  * Revision 1.1  2008/01/04 13:47:48  frigaut
@@ -209,4 +212,69 @@ func asgauss_fit(y,x,w,guess=,nterms=){
     a=guess;
     result=lmfit(asgauss,x,a,y,w,deriv=1);
     return a;
+}
+
+func gauss2d(xy, a, &grad, deriv=) {
+/* DOCUMENT gauss(xy,a)
+    
+     Returns a 2D gaussian:
+      I0*exp(-0.5*(X^2+Y^2)) [+a(7) [+a(8)*x [+a(9)*y]]]
+     Where:
+     x=xy(..,1)
+     y=xy(..,2)
+     X=((x-x0)*cos(alpha)+(y-y0)*sin(alpha))/dx
+     Y=((y-y0)*cos(alpha)-(x-x0)*sin(alpha))/dy
+     
+     I0=a(1)
+     x0=a(2)
+     y0=a(3)
+     dx=a(4) (gaussian sigma)
+     dy=a(5)
+     alpha=a(6)
+     
+    Works with lmfit, and can return derivates.
+ 
+    Notes: FHWM=sigma*2*sqrt(2*alog(2)); sum(gauss2d)=2*pi*I0*dx*dy
+
+    astro_util1.i contains two variants of this function: gaussian and
+    gaussianRound. Those two functions do not provide derivatives and
+    take a slightly different A vector (e.g. alpha in degrees instead
+    of radians).
+    
+    SEE ALSO: gauss, gauss_fit, gaussian, gaussianRound
+ */
+  npars=numberof(a);
+  eps=1e-100;
+  if (abs(a(4))<eps) dx1=sign(a(4))/eps; else dx1=1./a(4);
+  if (npars>=5) {
+    if (abs(a(5))<eps) dy1=sign(a(5))/eps; else dy1=1./a(5);
+  } else dy1=dx1;
+  
+  alpha=npars>=6?a(6):0.;
+  X=((deltax=(xy(..,1)-(x0=a(2))))*(cosa=cos(alpha))+
+     (deltay=(xy(..,2)-(y0=a(3))))*(sina=sin(alpha)))*dx1;
+  Y=(deltay*cosa-deltax*sina)*dy1;
+  
+  u1=exp(-0.5*(r2=(X^2+Y^2)));
+  res=a(1)*u1;
+
+  if (numberof(a)>=7) res+=a(7);
+  if (numberof(a)>=8) res+=a(8)*xy(..,1);
+  if (numberof(a)>=9) res+=a(7)*xy(..,2);
+  
+  if (deriv) {
+    grad=array(1.,dimsof(X),numberof(a));
+    grad(..,1)=u1;
+    grad(..,2)=((cosa*dx1)*X-(sina*dy1)*Y)*res;
+    grad(..,3)=((sina*dx1)*X+(cosa*dy1)*Y)*res;
+    grad(..,4)=dx1*X^2*res;
+    
+    if (numberof(a)>=5) grad(..,5)=dy1*Y^2*res; else grad(..,4)+=dy1*Y^2*res;
+    if (numberof(a)>=6) grad(..,6)=X*Y*(dy1/dx1-dx1/dy1)*res;//<==
+    //if (numberof(a)>=7) grad(..,7)=1.;
+    if (numberof(a)>=8) grad(..,8)=xy(..,1);
+    if (numberof(a)>=9) grad(..,9)=xy(..,2);
+  }
+  
+  return res;
 }
