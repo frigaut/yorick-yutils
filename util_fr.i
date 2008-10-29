@@ -2,7 +2,7 @@
  * util_fr.i
  * A collection of routines for general purpose.
  *
- * $Id: util_fr.i,v 1.2 2007-12-27 15:22:07 frigaut Exp $
+ * $Id: util_fr.i,v 1.3 2008-10-29 15:58:13 paumard Exp $
  *
  * Author: Francois Rigaut.
  * Written 2002
@@ -24,7 +24,11 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * $Log: util_fr.i,v $
- * Revision 1.2  2007-12-27 15:22:07  frigaut
+ * Revision 1.3  2008-10-29 15:58:13  paumard
+ * utils.i: reform would not work with empty dimlist. Fixed.
+ * plot.i, util_fr.i, utils.i: rename functions now standard in Yorick (color_bar, rdfile, reform)
+ *
+ * Revision 1.2  2007/12/27 15:22:07  frigaut
  * nothing. commit before tagging.
  *
  */
@@ -501,7 +505,7 @@ func findfiles(files)
 
 
 
-func rdfile(file)
+func __rdfile(file)
 /* DOCUMENT func rdfile(file)
    Open, read, close and return the whole content of ascii file "file".
    AUTHOR : F.Rigaut, Oct 2004.
@@ -513,6 +517,7 @@ func rdfile(file)
   while (line=rdline(f)) grow,fcontent,line;
   return fcontent;
 }
+if (!rdfile) rdfile=__rdfile;
 
 
 

@@ -55,11 +55,15 @@
  *      timer_elapsed - get/print the elapsed time since timer_start.
  *
  * History:
- *	$Id: utils.i,v 1.2 2008-02-15 18:55:30 frigaut Exp $
+ *	$Id: utils.i,v 1.3 2008-10-29 15:58:13 paumard Exp $
  *	$Log: utils.i,v $
- *	Revision 1.2  2008-02-15 18:55:30  frigaut
- *	fixed UTF-8 encoding problems (crash yorick-doc on amd64)
+ *	Revision 1.3  2008-10-29 15:58:13  paumard
+ *	utils.i: reform would not work with empty dimlist. Fixed.
+ *	plot.i, util_fr.i, utils.i: rename functions now standard in Yorick (color_bar, rdfile, reform)
  *
+ *	Revision 1.2  2008/02/15 18:55:30  frigaut
+ *	fixed UTF-8 encoding problems (crash yorick-doc on amd64)
+ *	
  *	Revision 1.1.1.1  2007/12/11 23:55:13  frigaut
  *	Initial Import - yorick-yutils
  *	
@@ -280,12 +284,15 @@ func grow_dimlist(&dimlist, arg)
   error, "bad data type in dimension list";
 }
 
-func reform(x, ..)
-/* DOCUMENT reform(x, dimlist, ...);
-       -or- reform(x);
+func __reform(x, ..)
+/* DOCUMENT __reform(x, dimlist, ...);
+       -or- __reform(x);
      returns array X reshaped according to dimension list DIMLIST.  Without
      DIMLIST, discards all dimensions equal to 1.  In most cases, prefer
      this to reshape.
+
+     There is now a builtin "reform" function in Yorick, which does
+     not deal with the DIMLIST not set case.
 
    SEE ALSO: array, dimsof, grow_dimlist. */
 {
@@ -298,12 +305,13 @@ func reform(x, ..)
     if (numberof(x) == 1) return x(1);
     dims = dimsof(x)(2:);
     dims = dims(where(dims>1));
-    dims = [numberof(dims), dims];
+    dims = _(numberof(dims), dims);
   }
   y = array(structof(x), dims);
   y(*) = x(*);   /* will blow up if lengths differ */
   return y;
 }
+if (is_func(reform)!=1) reform=__reform;
 
 func undersample(a, nsub, which=, op=)
 /* DOCUMENT undersample(a, nsub)

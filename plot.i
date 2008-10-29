@@ -26,11 +26,15 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * History:
- *	$Id: plot.i,v 1.1 2007-12-11 23:55:14 frigaut Exp $
+ *	$Id: plot.i,v 1.2 2008-10-29 15:58:13 paumard Exp $
  *	$Log: plot.i,v $
- *	Revision 1.1  2007-12-11 23:55:14  frigaut
- *	Initial revision
+ *	Revision 1.2  2008-10-29 15:58:13  paumard
+ *	utils.i: reform would not work with empty dimlist. Fixed.
+ *	plot.i, util_fr.i, utils.i: rename functions now standard in Yorick (color_bar, rdfile, reform)
  *
+ *	Revision 1.1.1.1  2007/12/11 23:55:14  frigaut
+ *	Initial Import - yorick-yutils
+ *	
  *	Revision 1.10  2002/05/14 10:03:49  eric
  *	 - plp: use directly plfp instead of plmk to plot symbols and ticks.
  *	 - plp: draw each symbol inside a unit circle so that they look the
@@ -102,7 +106,7 @@ func pl_fc(z, y, x, ireg, levs=, legend=, hide=, type=, width=, color=,
 
 /*----------------------------------------------------------------------*/
 
-func color_bar(levs, colors, vert=, labs=, adjust=, color=, width=,
+func __color_bar(levs, colors, vert=, labs=, adjust=, color=, width=,
                height=, ticklen=,
                vport=, format=, font=)
 /* DOCUMENT color_bar;
@@ -201,6 +205,7 @@ func color_bar(levs, colors, vert=, labs=, adjust=, color=, width=,
       height=height, font=font, color=color;
   }
 }
+if (!color_bar) color_bar=__color_bar;
 
 /*----------------------------------------------------------------------*/
 
