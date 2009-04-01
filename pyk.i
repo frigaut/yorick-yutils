@@ -1,7 +1,7 @@
 /* pyk.i
  * 2 way communication interface to python (useful for GUIs)
  * 
- * $Id: pyk.i,v 1.3 2007-12-21 20:51:45 frigaut Exp $
+ * $Id: pyk.i,v 1.4 2009-04-01 06:43:07 paumard Exp $
  * 
  * Author: Francois Rigaut
  * Written May 2007
@@ -63,7 +63,7 @@ func pyk(py_command)
       error, "already blocked waiting for python";
     }
     _pyk_sync = 1;
-    _pyk_proc, "pyk_sync\n";
+    _pyk_proc, "pyk_sync()\n";
     suspend;
     if (_pyk_sync) {
       _pyk_sync = 0;
@@ -212,7 +212,7 @@ func _pyk_callback(line)
 
   /* record whether final line is a sync message, remove it */
   mask =(line != "-s+y-n+c-+p-y+k-");
-  synchronized = !mask(0);
+  synchronized = !allof(mask);
   line = line(where(mask));
   nofline = numberof(line);
 
