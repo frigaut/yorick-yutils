@@ -3,64 +3,141 @@
  *
  *	General purpose utility routines for Yorick.
  *
- * Copyright (c) 1996-2004, Eric Thiebaut, Observatoire de Lyon (France).
+ *-----------------------------------------------------------------------------
  *
- * This program is free software; you can redistribute it and/or  modify it
- * under the terms of the GNU General Public License  as  published  by the
- * Free Software Foundation; either version 2 of the License,  or  (at your
- * option) any later version.
+ *	Copyright (C) 1996-2008 Eric Thiebaut <thiebaut@obs.univ-lyon1.fr>
  *
- * This program is distributed in the hope  that  it  will  be  useful, but
- * WITHOUT  ANY   WARRANTY;   without   even   the   implied   warranty  of
- * MERCHANTABILITY or  FITNESS  FOR  A  PARTICULAR  PURPOSE.   See  the GNU
- * General Public License for more details (to receive a  copy  of  the GNU
- * General Public License, write to the Free Software Foundation, Inc., 675
- * Mass Ave, Cambridge, MA 02139, USA).
- * 
+ *	This file is free software; as a special exception the author gives
+ *	unlimited permission to copy and/or distribute it, with or without
+ *	modifications, as long as this notice is preserved.
+ *
+ *	This software is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+ *	even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ *	PARTICULAR PURPOSE.
+ *
+ *-----------------------------------------------------------------------------
+ *
  * Routines:
- *      eval         - evaluate textual code.
- *	pwd          - print/get working directory.
- *	unref        - returns X, destroying X in the process.
- *	swap         - exchanges contents of two variables.
- *	grow_dimlist - build dimension list.
- *	reform       - change dimension list of an array.
- *	undersample  - shrink array dimension(s).
- *	spline_zoom  - resize an array by cubic spline interpolation
- *	map          - apply function to every elements of array or list.
- *	str(to)upper - convert string(s) to upper case letters.
- *	str(to)lower - convert string(s) to lower case letters.
- *	strcut       - cut text to fit into lines of given length.
- *	strjoin      - make array of strings into a single string.
- *	is_scalar    - check if argument is a scalar.
- *	is_vector    - check if argument is a vector.
- *	is_matrix    - check if argument is a matrix.
- *	is_real      - check if argument is of float or double type.
- *	is_complex   - check if argument is of complex type.
- *	is_integer   - check if argument is of integer type.
- *	is_numerical - check if argument is of numerical type.
- *	is_integer_scalar - check if argument is a scalar of integer type.
- *      expand_file_name - expand leading tilde in file name(s).
- *	get_file_name - get path name of file associated with a stream.
- *	protect_file_name - protect special characters in file name.
- *	read_ascii   - read ascii numeric data
- *	load_text    - load all lines of a text file.
- *	dump_text    - dump string array in a text file.
+ *	depth_of     - get 3rd dimension of an array
+ *	dump_text    - dump string array in a text file
+ *	eval         - evaluate textual code
+ *	expand_file_name - expand leading tilde in file name(s)
+ *	filesize     - get size of a file in bytes
+ *	get_file_name - get path name of file associated with a stream
+ *	glob         - get list of files matching glob-style pattern
  *	guess_compression - guess compression method of existing file
+ *	height_of    - get 2nd dimension of an array
+ *	is_integer_scalar - check if argument is a scalar of integer type
+ *	is_string_scalar - check if argument is a scalar string
+ *	load_text    - load all lines of a text file
+ *	map          - apply function to every elements of array or list
+ *	moments      - get first moments of a sampled distribution
+ *	ncols_of     - get number of columns of an array
+ *	ndims_of     - get number of dimension of an array
+ *	nrows_of     - get number of rows of an array
+ *	open_url     - open an URL into a web browser
+ *	pdb_list     - lists contents of PDB binary file
+ *	pdb_restore_all - restore all non-record variables of a PDB file
+ *	protect_file_name - protect special characters in file name
+ *	pw_get_gid   - get group numerical identifier from /etc/passwd file
+ *	pw_get_home  - get home directory of user from /etc/passwd file
+ *	pw_get_name  - get real user name from /etc/passwd file
+ *	pw_get_shell - get path to shell of user from /etc/passwd file
+ *	pw_get_uid   - get user numerical identifier from /etc/passwd file
+ *	pw_get_user  - get user name from /etc/passwd file
+ *	pwd          - print/get working directory
+ *      raw_read     - read binary data from file
+ *	read_ascii   - read ascii numeric data
+ *	smooth       - smooth array along its dimensions
+ *	spline_zoom  - resize an array by cubic spline interpolation
+ *	stat         - display statistics/info about symbols/expressions
+ *	strchr       - forward search for a character in a string
+ *	strcut       - cut text to fit into lines of given length
+ *	strjoin      - make array of strings into a single string
+ *	strlower     - convert string(s) to lower case letters
+ *	strrchr      - backward search for a character in a string
+ *	strupper     - convert string(s) to upper case letters
+ *      strip_file_extension - remove extension from file name
+ *	tempfile     - get unique file name
+ *	timer_elapsed - get/print the elapsed time since timer_start
+ *	timer_start  - (re)start the profiling timer
+ *	undersample  - shrink array dimension(s)
+ *	width_of     - get 1st dimension of an array
  *	xopen        - extended open with (de)compression, primitives, ...
- *	stat         - display statistics/info about symbols/expressions.
- *	smooth       - smooth array along its dimensions.
- *      pdb_list     - lists contents of PDB binary file.
- *      pdb_restore_all - restore all non-record variables of a PDB file.
- *      timer_start  - (re)start the profiling timer.
- *      timer_elapsed - get/print the elapsed time since timer_start.
  *
  * History:
- *	$Id: utils.i,v 1.3 2008-10-29 15:58:13 paumard Exp $
+ *	$Id: utils.i,v 1.4 2010-02-10 13:27:12 paumard Exp $
  *	$Log: utils.i,v $
- *	Revision 1.3  2008-10-29 15:58:13  paumard
+ *	Revision 1.4  2010-02-10 13:27:12  paumard
+ *	- Synchronize files with Eric Thiebaut's: fft_utils.i, img.i, plot.i, utils.i.
+ *	- Import emulate_yeti.i
+ *	- Remove basename() and dirname(), standard in pathfun.i.
+ *	- Remove the accents in Erics name to prevent a crash on amd64.
+ *
+ *	Revision 1.24  2008/07/12 06:50:05  eric
+ *	 - Changed final comment for setting local variables of Emacs.
+ *
+ *	Revision 1.23  2008/07/11 20:43:50  eric
+ *	 - New routine: filesize.
+ *
+ *	Revision 1.22  2007/07/02 22:17:03  eric
+ *	 - New routine: strip_file_extension.
+ *
+ *	Revision 1.21  2007/04/24 07:10:38  eric
+ *	 - New raw_read function to read binary data from a file.
+ *	 - Function grow_dimlist superseded by make_dimlist (part of
+ *	   Yeti) and moved to emulate_yeti.i library file.
+ *
+ *	Revision 1.20  2007/03/21 08:39:43  eric
+ *	 - Avoid blocking when function tempfile is called as a subroutine
+ *	   to initialize internal random generator (_read is *not* designed
+ *	   to read from devices).
+ *
+ *	Revision 1.19  2006/06/09 15:32:48  eric
+ *	 - Fixed 2 glitches in eval().
+ *
+ *	Revision 1.18  2006/06/09 15:15:25  eric
+ *	 - Function tempfile() can now preserve the extension of the template
+ *	   name.
+ *	 - Private function _tempfile_init() no longer needed and deleted.
+ *	 - Reworked interface for eval() function to achieve better
+ *	   protection against symbol name collision.  The old function
+ *	   (with keywords) is available as old_eval().
+ *
+ *	Revision 1.17  2006/02/08 01:16:42  eric
+ *	 - New function glob() to get a list of files matching glob-style
+ *	   pattern.
+ *	 - New function tempfile() to get a unique file name.
+ *	 - New functions to query array dimensions: ndims_of, nrows_of,
+ *	   ncols_of, width_of height_of and depth_of.
+ *	 - Removed function reform() which is now part of "std.i".
+ *
+ *	Revision 1.16  2005/11/23 10:10:54  eric
+ *	 - In spline_zoom: changed the coordinates relationship.
+ *	 - In read_ascii: new keyword MAXCOLS, the default maximum
+ *	   number of columns is 10000 instead of 128, documentation
+ *	   for the COMPRESS keyword.
+ *
+ *	Revision 1.15  2005/07/14 08:38:01  eric
+ *	 - Modified to work with Yorick 1.6 and Yeti package (plugin).
+ *	   Some functions have been removed and are provided by
+ *	   "emulate_yeti.i" which is automatically included if Yeti
+ *	   plugin is not loaded: swap(), unref(), is_scalar(), is_vector(),
+ *	   is_matrix(), is_real(), is_complex(), is_integer(), is_numerical().
+ *	 - New function: moments().
+ *
+ *	Revision 1.14  2005/04/05 13:05:17  eric
+ *	 - New functions: pw_get_user, pw_get_uid, pw_get_gid, pw_get_name,
+ *	   pw_get_home, and pw_get_shell to parse /etc/passwd file.
+ *
+ *	Revision 1.13  2004/11/29 21:26:00  eric
+ *	 - new functions: strchr, strrchr, basename, dirname.
+ *
+ *	Revision 1.3  2008/10/29 15:58:13  paumard
  *	utils.i: reform would not work with empty dimlist. Fixed.
  *	plot.i, util_fr.i, utils.i: rename functions now standard in Yorick (color_bar, rdfile, reform)
- *
+ *	
  *	Revision 1.2  2008/02/15 18:55:30  frigaut
  *	fixed UTF-8 encoding problems (crash yorick-doc on amd64)
  *	
@@ -103,9 +180,9 @@
  *
  *	Revision 1.4  2002/02/22 16:19:24  eric
  *	 - Change (one more time) names of str(to)upper/lower functions to
- *         avoid clash with builtin Yeti routines.
+ *	   avoid clash with builtin Yeti routines.
  *	 - Add "unref" routines (after Yorick's FAQ, so the true author is
- *         Dave, not me).
+ *	   Dave, not me).
  *
  *	Revision 1.3  2001/12/08 22:33:37  eric
  *	 - stat(): computation of standard deviation improved.
@@ -119,41 +196,71 @@
  *-----------------------------------------------------------------------------
  */
 
-func eval(code, tmp=, debug=)
-/* DOCUMENT eval, code;
-       -or- eval(code);       
+local old_eval;
+func eval(eval_code, eval_tmp, eval_debug)
+/* DOCUMENT eval, code [, tmp [, debug]];
+       -or- eval(code [, tmp [, debug]]);
+       -or- old_eval(code, tmp=, debug=)
+       
      Evaluates CODE given as a string or as an array of strings (considered
-     as  different lines  in the  script).  Since  CODE can  be dynamically
-     build,   this  routine   allows  the   execution  of   virtually  (see
-     hints/restrictions below)  any Yorick's code  (e.g. dynamic definition
-     of  structures,  of functions,  etc.).   For  instance, the  following
+     as different lines in the script).  Since CODE can be dynamically
+     build, this routine allows the execution of virtually (see
+     hints/restrictions below) any Yorick's code (e.g. dynamic definition
+     of structures, of functions, etc.).  For instance, the following
      statement defines a new structure:
+     
        eval, "struct NewStruct {string a; long b; float c, d;}";
 
-     Since  the script  gets evaluated  at the  scope level  of  the "eval"
-     routine some local variables of the  "eval" routine may be used in the
-     script:
-       "eval_tmp"    contains  the  name of  the temporary script  file and
+     Since the script gets evaluated at the scope level of the "eval"
+     routine some local variables of the "eval" routine may be used in
+     the script:
+     
+       "eval_tmp"    contains the name of the temporary script file and
                      must not be changed by the script;
-       "eval_debug"  contains the value of  the keyword DEBUG and  must not
-                     be changed by the script;
+                         
+       "eval_debug"  contains the value of the keyword DEBUG and must
+                     not be changed by the script;
+                     
        "eval_code"   contains the value of the argument CODE;
-       "eval_result" is  returned by  "eval", its  contents may  be defined
+       
+       "eval_result" is returned by "eval", its contents may be defined
                      into the script to provide a returned value.
-     Note: impredictible  results may  occur if CODE  changes the  value of
+                         
+     Note: impredictible results may occur if CODE changes the value of
      symbols "eval_tmp" and "eval_debug".
 
-     Keyword TMP  can be  used to  specify the file  name of  the temporary
-     script.  The default file name is:
-       "$YORICK_EVAL_TMP"      if environment variable "YORICK_EVAL_TMP" is
-                               set;
-       "/tmp/$USER-eval_tmp.i" if environment variable "USER" set;
-       "~/.eval_tmp.i"         otherwise.
-     If  keyword DEBUG  is true  (non-zero and  non-nil), the  name  of the
-     temporary file is printed out and the file is not removed.
+     Optional second argument TMP can be used to specify the file name of
+     the temporary script.  The default file name is:
+       "$TMDIR/$USER_XXXXXX" if environment variable "TMDIR" is set;
+       "_eval_XXXXXX"        otherwise;
+     where the "XXXXXX" are replaced by a random pattern to avoid
+     collisions (see (tempfile).
+       
+     If optional third argument DEBUG is true (non-zero and non-nil), the
+     name of the temporary file is printed out and the file is not removed.
 
 
-   SEE ALSO: include. */
+   SEE ALSO: include, unref, tempfile. */
+{
+  /* Dump script into a temporary file. */
+  if (is_void(eval_tmp)) {
+    /* Create default name for yorick temporary code. */
+    eval_tmp = get_env("TMPDIR");
+    if (eval_tmp) eval_tmp += "/" + get_env("USER") + "_XXXXXX.i";
+    else eval_tmp = "_eval_XXXXXX.i";
+    eval_tmp = tempfile(eval_tmp);
+  }
+  write, format="%s\n", open(eval_tmp, "w"), eval_code;
+
+  /* Source script and return result. */
+  local eval_result;
+  include, eval_tmp, 1;
+  if (eval_debug) write, format="Yorick code written in \"%s\"\n", eval_tmp;
+  else remove, eval_tmp;
+  return eval_result;
+}
+
+func old_eval(code, tmp=, debug=)
 {
   /* Dump script into a temporary file. */
   if (is_void(tmp)) {
@@ -165,7 +272,7 @@ func eval(code, tmp=, debug=)
     }
   }
   write, format="%s\n", open(tmp, "w"), code;
-  
+
   /* Use "eval_" prefix in order to somewhat protect local variables
      from caller's code. */
   local eval_result, eval_tmp, eval_code, eval_debug;
@@ -179,140 +286,7 @@ func eval(code, tmp=, debug=)
   else remove, eval_tmp;
   return eval_result;
 }
-
-func pwd(nil)
-/* DOCUMENT pwd
-       -or- pwd()
-     Prints out (subroutine form) or returns (function form) full path
-     of current working directory.
-
-   SEE ALSO: cd, lsdir. */
-{
-  if (! is_void(nil)) error, "unexpected non-nil argument";
-  dir = cd(".");
-  if (am_subroutine()) write, format="%s\n", dir;
-  else return dir;
-}
-
-local unref; /* needed for documentation */
-func __unref(&x) /* interpreted version */
-/* DOCUMENT unref(x)
-     returns X, destroying X in the process (useful to deal with temporary
-     big arrays).  Written after Yorick's FAQ.
-   SEE ALSO: eq_nocopy, swap. */
-{
-  local y;
-  eq_nocopy, y, x;
-  x = [];
-  return y;
-}
-/* replace non-builtin function by interpreted one */
-if (is_func(unref) != 2) unref =  __unref;
-
-local swap; /* needed for documentation */
-func __swap(&a, &b) /* interpreted version */
-/* DOCUMENT swap, a, b;
-     Exchanges  the contents  of variables  A and  B without  requiring any
-     temporary copy.
-   SEE ALSO: eq_nocopy, unref. */
-{
-  local tmp;
-  eq_nocopy, tmp, a;
-  eq_nocopy, a, b;
-  eq_nocopy, b, tmp;
-}
-/* replace non-builtin function by interpreted one */
-if (is_func(swap) != 2) swap =  __swap;
-
-func grow_dimlist(&dimlist, arg)
-/* DOCUMENT grow_dimlist, dimlist, next_argument
-     builds a dimension  list DIMLIST, as used in  the array function.  Use
-     like  this (all  extra arguments  in your  function are  considered as
-     dimensions or dimension lists):
-       func your_function(arg1, arg2, etc, ..)
-       {
-         dimlist = [0];
-         while (more_args()) grow_dimlist, dimlist, next_arg();
-         ...
-       }
-     After    this,   DIMLIST   will    be   an    array   of    the   form
-     [ndims, dim1, dim2,...], compounded from the multiple arguments in the
-     same way as the array function.  Another possibility is to define your
-     function as:
-       func your_function(arg1, arg2, etc, dimlist, ..)
-       {
-         while (more_args()) grow_dimlist, dimlist, next_arg();
-         ...
-       }
-     But in this  latter case, if no DIMLIST  arguments given, DIMLIST will
-     be [] instead of [0], which  will act the same in most situations.  If
-     that possibility is unacceptible, you may add
-       if (is_void(dimlist)) dimlist= [0];
-     before/after the while loop.
-
-
-   SEE ALSO: array, build_dimlist */
-{
-  if (is_array(arg)) {
-    if (structof((n = arg(1)+0)) == long) {
-      if (! (d1 = dimsof(arg)(1))) {
-        if (is_void(dimlist)) {
-          dimlist = [1, n];
-        } else {
-          grow, dimlist, n;
-          ++dimlist(1);
-        }
-        return;
-      } else if (d1 == 1) {
-        if (is_void(dimlist)) {
-          dimlist = long(arg);
-          return;
-        } else {
-          if (n == numberof(arg)-1) {
-            grow, dimlist, long(arg(2:0));
-            dimlist(1) += n;
-            return;
-          }
-        }
-      }
-      error, "bad dimension list";
-    }
-  } else if (is_void(arg)) {
-    if (is_void(dimlist)) dimlist = [0];
-    return;
-  }
-  error, "bad data type in dimension list";
-}
-
-func __reform(x, ..)
-/* DOCUMENT __reform(x, dimlist, ...);
-       -or- __reform(x);
-     returns array X reshaped according to dimension list DIMLIST.  Without
-     DIMLIST, discards all dimensions equal to 1.  In most cases, prefer
-     this to reshape.
-
-     There is now a builtin "reform" function in Yorick, which does
-     not deal with the DIMLIST not set case.
-
-   SEE ALSO: array, dimsof, grow_dimlist. */
-{
-  if (more_args()) {
-    /* Build new dimension list. */
-    dims = [0];
-    while (more_args()) grow_dimlist, dims, next_arg();
-  } else {
-    /* Discard all dimensions equal to 1 */
-    if (numberof(x) == 1) return x(1);
-    dims = dimsof(x)(2:);
-    dims = dims(where(dims>1));
-    dims = _(numberof(dims), dims);
-  }
-  y = array(structof(x), dims);
-  y(*) = x(*);   /* will blow up if lengths differ */
-  return y;
-}
-if (is_func(reform)!=1) reform=__reform;
-
+  
 func undersample(a, nsub, which=, op=)
 /* DOCUMENT undersample(a, nsub)
      Returns  array A  with all  (some)  dimensions divided  by NSUB.   The
@@ -368,6 +342,36 @@ func undersample(a, nsub, which=, op=)
   return a;
 }
 
+/*---------------------------------------------------------------------------*/
+
+local nrows_of, ncols_of;
+func ndims_of(a)  { return (is_array(a) ? dimsof(a)(1) : -1); }
+func width_of(a)  { return (is_array(a) ? ((dims = dimsof(a))(1) >= 1 ? dims(2) : 1) : 0); }
+func height_of(a) { return (is_array(a) ? ((dims = dimsof(a))(1) >= 2 ? dims(3) : 1) : 0); }
+func depth_of(a)  { return (is_array(a) ? ((dims = dimsof(a))(1) >= 3 ? dims(4) : 1) : 0); }
+/* DOCUMENT ndims_of(a) - get number of dimensions of array A; returns -1
+ *                        for non-array argument;
+ *          nrows_of(a) - get number of rows of array A, returns 0
+ *                        for non-array or scalar argument;
+ *          ncols_of(a) - get number of columns of array A, returns 0
+ *                        for non-array or vector argument;
+ *          width_of(a) - get length of 1st dimension of A, returns 0
+ *                        if A is non-array is a scalar;
+ *         height_of(a) - get length of 2nd dimension of A, returns 0
+ *                        if A is non-array or has less than 2 dimensions;
+ *          depth_of(a) - get length of 3rd dimension of A, returns 0
+ *                        if A is non-array or has less than 3 dimensions.
+ *
+ *   The number of rows of an array is the length of its first dimension;
+ *   the number of columns is the length of its second dimension.
+ *
+ * SEE ALSO: dimsof.
+ */
+nrows_of = width_of;
+ncols_of = height_of;
+
+/*---------------------------------------------------------------------------*/
+
 func spline_zoom(a, factor, rgb=)
 /* DOCUMENT spline_zoom(a, fact)
      Return an array obtained by cubic spline interpolation of A with all
@@ -375,7 +379,7 @@ func spline_zoom(a, factor, rgb=)
      first dimsion of A is left unchanged.  If keyword RGB is not
      specified, then it is considered as true if A is a 3 dimensional array
      of 'char' with its first dimension equal to 3.
-     
+
    SEE ALSO: spline, transpose. */
 {
   if (! is_func(spline)) require, "spline.i";
@@ -402,8 +406,8 @@ func spline_zoom(a, factor, rgb=)
       if (n1 != n0) {
         dims(2) = n1;
         b = array(double, dims);
-        x0 = indgen(0:n0-1);
-        x1 = indgen(0:n1-1)*((n0 - 1.0)/(n1 - 1.0));
+        x0 = (indgen(n0) - (n0 + 1)/2.0)/n0;
+        x1 = (indgen(n1) - (n1 + 1)/2.0)/n1;
         n = numberof(a)/n0;
         for (i=1 ; i<=n ; ++i) b(,i) = spline(a(,i), x0, x1);
         eq_nocopy, a, b;
@@ -448,44 +452,13 @@ func map(__map__f, __map__x)
 /*---------------------------------------------------------------------------*/
 /* STRING ROUTINES */
 
-local _strlower, _strupper;
-/* DOCUMENT local _strlower, _strupper;
-     Private arrays to convert char to upper/lowercase letters.
-   SEE ALSO strlower, strupper */
-(_strlower = char(indgen(0:255)))(1+'A':1+'Z') = _strlower(1+'a':1+'z');
-(_strupper = char(indgen(0:255)))(1+'a':1+'z') = _strupper(1+'A':1+'Z');
-
-local strlower, strtolower; /* needed for documentation */
-func __strlower(s) /* interpreted version */
+func strlower(s) { return strcase(0, s); }
+func strupper(s) { return strcase(1, s); }
 /* DOCUMENT strlower(s)
-       -or- strtolower(s)
-     Convert a string or an array of strings S to lower case letters.
-   SEE ALSO strupper */
-{
-  /* fool codger */ extern _strlower;
-  n = numberof((r = array(string, dimsof(s))));
-  for (i=1; i<=n; ++i) r(i)= string(&_strlower(1+*pointer(s(i))));
-  return r;
-}
+       -or- strupper(s)
+     Convert (array of) string(s) S to lower/upper case letters.
 
-local strupper, strtoupper; /* needed for documentation */
-func __strupper(s) /* interpreted version */
-/* DOCUMENT strupper(s)
-       -or- strtoupper(s)
-     Convert a string or an array of strings S to upper case letters.
-   SEE ALSO strlower */
-{
-  /* fool codger */ extern _strupper;
-  n = numberof((r = array(string, dimsof(s))));
-  for (i=1; i<=n; ++i) r(i)= string(&_strupper(1+*pointer(s(i))));
-  return r;
-}
-
-/* replace non-builtin functions by interpreted ones */
-if (is_func(strupper) != 2) strupper = __strupper;
-if (is_func(strlower) != 2) strlower = __strlower;
-if (is_func(strtoupper) != 2) strtoupper = strupper;
-if (is_func(strtoupper) != 2) strtolower = strtolower;
+   SEE ALSO strcase */
 
 func strcut(str, len)
 /* DOCUMENT strcut(str, len)
@@ -518,83 +491,265 @@ func strjoin(str, glue)
   }
 }
 
+local strrchr; /* required for the documentation */
+func strchr(s, c)
+/* DOCUMENT strchr(s, c)
+       -or- strrchr(s, c)
+     The strchr (strrchr) function returns the index of the first (last)
+     occurrence of the character C in the string S.  If C is not found an
+     index of zero is returned.  S can be an array of strings, in which
+     case the result is an array of long's.  But C must be a scalar.
+*/
+{
+  i = numberof((index = array(long, dimsof(s)))) + 1;
+  while (--i)
+    if (is_array((j = where(*pointer(s(i)) == c))))
+      index(i) = j(1);
+  return index;
+}
+
+func strrchr(s, c)
+{
+  i = numberof((index = array(long, dimsof(s)))) + 1;
+  while (--i)
+    if (is_array((j = where(*pointer(s(i)) == c))))
+      index(i) = j(0);
+  return index;
+}
+
 /*---------------------------------------------------------------------------*/
 /* LOGICAL ROUTINES */
-func _is_scalar(x) { return (is_array(x) && ! dimsof(x)(1)); }
-/* DOCUMENT is_scalar(x)
-     returns true if X is a scalar.
 
-   SEE ALSO is_scalar, is_vector, is_matrix, is_array,
-            is_integer, is_real, is_complex, is_numerical. */
-if (!is_scalar) is_scalar = _is_scalar;
-
-func _is_vector(x) { return (is_array(x) && dimsof(x)(1) == 1); }
-/* DOCUMENT is_vector(x)
-     returns true if array X is a vector (i.e. a 1D array).
-
-   SEE ALSO is_scalar, is_vector, is_matrix, is_array,
-            is_integer, is_real, is_complex, is_numerical. */
-if (!is_vector) is_vector = _is_vector;
-
-func _is_matrix(x) { return (is_array(x) && dimsof(x)(1) == 2); }
-/* DOCUMENT is_matrix(x)
-     returns true if array X is a matrix (i.e. a 2D array).
-
-   SEE ALSO is_scalar, is_vector, is_matrix, is_array,
-            is_integer, is_real, is_complex, is_numerical. */
-if (!is_matrix) is_matrix = _is_matrix;
-
-
-func _is_real(x)    { return ((s=structof(x))==double || s==float); }
-/* DOCUMENT is_real(x)
-     returns true if array X if of real type (i.e. double or float).
-
-   SEE ALSO is_scalar, is_vector, is_matrix, is_array,
-            is_integer, is_real, is_complex, is_numerical. */
-if (!is_real) is_real = _is_real;
-
-
-func _is_complex(x) { return structof(x)==complex; }
-/* DOCUMENT is_integer(x)
-     returns true if array X if of integer type.
-
-   SEE ALSO is_scalar, is_vector, is_matrix, is_array,
-            is_integer, is_real, is_complex, is_numerical. */
-if (!is_complex) is_complex = _is_complex;
-
-
-func _is_integer(x) 
-/* DOCUMENT is_integer(x)
-     returns true if array X if of integer type.
-
-   SEE ALSO is_scalar, is_vector, is_matrix, is_array,
-            is_integer, is_real, is_complex, is_numerical. */
-{ return ((s=structof(x))==long || s==int || s==char || s==short);}
-if (!is_integer) is_integer = _is_integer;
-
-
-func _is_numerical(x) 
-/* DOCUMENT is_numerical(x)
-     returns true if array X if of numerical type.
-
-   SEE ALSO is_scalar, is_vector, is_matrix, is_array,
-            is_integer, is_real, is_complex, is_numerical. */
-{ return ((s=structof(x))==long || s==double || s==int || s==char ||
-          s==complex || s==short || s==float); }
-if (!is_numerical) is_numerical = _is_numerical;
-
-
-func _is_integer_scalar(x) 
+func is_integer_scalar(x) { return (is_integer(x) && is_scalar(x)); }
+func is_string_scalar(x) { return (is_string(x) && is_scalar(x)); }
 /* DOCUMENT is_integer_scalar(x)
-     Check whether or not X is an integer scalar.
+       -or- is_string_scalar(x)
+     Check whether or not X is an integer/string scalar.
 
    SEE ALSO is_scalar, is_integer. */
-{ return (((s=structof(x))==long || s==int || s==short ||
-           s==char) &&! dimsof(x)(1)); }
-if (!is_integer_scalar) is_integer_scalar = _is_integer_scalar;
 
 /*---------------------------------------------------------------------------*/
 /* FILE ROUTINES */
+
+local _TEMPFILE_ALPHABET, _TEMPFILE_SEED;
+func tempfile(template)
+/* DOCUMENT tempfile(template)   
+     Returns a file name build from TEMPLATE and which did not exists
+     when the function checked.  If the string "XXXXXX" is found in
+     the file part of TEMPLATE (that is after the last / if any),
+     these characters get replaced with a pseudo-random string;
+     otherwise, the pseudo-random string is simply appended to
+     TEMPLATE.  The pseudo-random string is chosen so as to make the
+     filename unique.  There is however a very small chance that the
+     returned filename is not unique.  To limit conflicts, an empty
+     file with the same name as the returned value is created; this
+     file can be deleted or overwritten by the caller.  The caller is
+     responsible to delete the temporary file (with remove) when no
+     longer needed.
+
+     Note that the tempfile function uses its own internal random
+     generator to avoid changing the sequence of random values
+     returned by Yorick's builtin random generator.  When called as a
+     subroutine, the internal random generator is (re)initialized.
+
+   SEE ALSO: open, remove.
+ */
+{
+  extern _TEMPFILE_ALPHABET, _TEMPFILE_SEED;
+
+  if (am_subroutine()) {
+    /* Initialization: seed random generator. */
+#if 0 /* _read is *not* designed to read from devices */
+    file = open("/dev/urandom", "rb", 1);
+    if (file) {
+      /* plan A: use system random generator */
+      t = array(char, 4);
+      if (_read(file, 0L, t) == 4) {
+        m = 256.0; /* multiplier */
+        _TEMPFILE_SEED = t(1) + m*(t(2) + m*(t(3) + m*t(4)));
+        return;
+      }
+    }
+#endif
+    /* plan B: use elapsed time in microseconds to seed random generator */
+    n = 2.0^32; /* number of values */
+    r = 1e6; /* microseconds */
+    t = array(double, 3);
+    timer, t;
+    _TEMPFILE_SEED = floor((sum(t) % (n/r))*r + 0.5) % n;
+    return;
+  }
+
+  /* Locate substitution pattern in template name. */
+  pattern = "XXXXXX";
+  off = strfind("/", template, back=1)(1);
+  sel = strfind(pattern, template, off, back=1);
+  if (sel(2) > sel(1)) {
+    i1 = sel(1) + 1;
+    i2 = sel(2);
+    buf = strchar(template);
+  } else {
+    buf = strchar(template + pattern);
+    i1 = strlen(template) + 1;
+    i2 = i1 + strlen(pattern) - 1;
+  }
+  
+  /* Randomly generate a filename from the template. */
+  n = numberof(_TEMPFILE_ALPHABET);
+  do {
+    /* 32-bit pseudo-random number generator */
+    _TEMPFILE_SEED = (1664525.0*_TEMPFILE_SEED + 1013904223.0)%4294967296.0;
+    x = _TEMPFILE_SEED;
+    for (i=i1 ; i<=i2 ; ++i) {
+      r = x % n;
+      buf(i) = _TEMPFILE_ALPHABET(long(r + 1.5));
+      x = (x - r)/n;
+    }
+    filename = strchar(buf);
+  } while (open(filename, "r", 1));
+  open, filename, "w"; /* create empty file */
+  return filename;
+}
+if (structof(_TEMPFILE_SEED) != double
+    || dimsof(_TEMPFILE_SEED)(1) != 0) {
+  tempfile; /* setup random generator */
+}
+_TEMPFILE_ALPHABET = ['0','1','2','3','4','5','6','7','8','9',
+                      'A','B','C','D','E','F','G','H','I','J','K','L','M',
+                      'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+                      'a','b','c','d','e','f','g','h','i','j','k','l','m',
+                      'n','o','p','q','r','s','t','u','v','w','x','y','z'];
+
+func filesize(filename, errmode)
+/* DOCUMENT filesize(filename)
+ *     -or- filesize(filename, errmode)
+ *
+ *   Returns the size (in bytes) of file FILENAME which must be readable.
+ *   If ERRMODE is non-nil and non-zero, fail by returning -1L, otherwise
+ *   failure to open the file in read mode is a runtime error.
+ *
+ * SEE ALSO: open, _read.
+ */
+{
+  /* Open file in binary mode and get the file size by a bisection method,
+     attempting to read a single byte at various offsets.  To avoid integer
+     overflows, all offset computations are performed in double
+     precision. */
+  stream = open(filename, "rb", 1);
+  if (! stream) {
+    if (errmode) return -1L;
+    error, "cannot read file";
+  }
+  byte = char(0);
+  nbits = 8*sizeof(long) - 1;
+  max_offset = 2.0^nbits - 1.0;
+  min_size =  0.0;
+  max_size = -1.0; /* negative until maximum size is detected */
+  offset = 16384.0;
+  gain = 2.0;
+  for (;;) {
+    if (_read(stream, long(offset), byte)) {
+      min_size = offset + 1.0;
+    } else {
+      max_size = offset;
+    }
+    if (max_size >= min_size) {
+      /* Maximum size has been set: check for convergence, otherwise
+         take the safeguarded bissection step. */
+      if (min_size == max_size) {
+        return long(max_size);
+      }
+      offset = min(max_offset, floor((min_size + max_size)/2.0));
+    } else {
+      /* Maximum size has not yet been set: grow the size. */
+      offset = min(max_offset, floor(min_size*gain));
+    }
+  }
+}
+
+func pwd(nil)
+/* DOCUMENT pwd
+       -or- pwd()
+     Prints out (subroutine form) or returns (function form) full path
+     of current working directory.
+
+   SEE ALSO: cd, lsdir. */
+{
+  if (! is_void(nil)) error, "unexpected non-nil argument";
+  dir = cd(".");
+  if (am_subroutine()) write, format="%s\n", dir;
+  else return dir;
+}
+
+func glob(pat)
+/* DOCUMENT glob(pat)
+ *   Returns a list of files matching glob-style pattern PAT.  Only the
+ *   'file' part of PAT can have wild characters (the file part is after
+ *   the last '/' in PAT).
+ *
+ * SEE ALSO: lsdir, strglob.
+ */
+{
+  i = strfind("/", pat, back=1);
+  if ((i = i(2)) >= 1) {
+    dir = strpart(pat, 1:i);
+    pat = strpart(pat, i+1:0);
+  } else {
+    dir = "./";
+  }
+  list = lsdir(dir);
+  list = list(where(strglob(pat, list)));
+  if (! is_void(list)) return dir + list;
+}
+
+func strip_file_extension(path, ext, ..)
+/* DOCUMENT strip_file_extension(path);
+ *     -or- strip_file_extension(path, ext, ..);
+ *
+ *   Strip file extension from filename PATH (an array of strings).
+ *   If no other arguments are specified, the result is PATH with
+ *   trailing characters after (and including) the last dot '.'
+ *   stripped (the last dot must however occur after the last slash
+ *   '/').  Otherwise, there may be any number of extensions EXT which
+ *   are tried in turn until one matches the end of PATH, in that case
+ *   the result is PATH stripped from that particular extension (which
+ *   may or may not contain a dot).  If PATH is an array, the same
+ *   processus is applied to every element of PATH (i.e. they can
+ *   match a different extension).
+ *
+ *
+ * SEE ALSO: strpart, strgrep, streplace.
+ */
+{
+  if (! is_string(path)) {
+    error, "expecting a string";
+  }
+  while (more_args()) {
+    grow, ext, next_arg()(*);
+  }
+  if (is_void(ext)) {
+    return streplace(path, strgrep("\\.[^./]*$", path), "");
+  }
+  result = path; /* make a private copy */
+  path_len = strlen(path);
+  n = numberof(ext);
+  ext_len = strlen(ext);
+  for (j = numberof(path); j >= 1; --j) {
+    len1 = path_len(j);
+    path1 = path(j);
+    for (k = 1; k <= n; ++k) {
+      if ((len2 = ext_len(k)) <= len1 && len2 > 0 &&
+          strpart(path1, 1 - len2 : 0) == ext(k)) {
+        result(j) = strpart(path1, 1 : -len2);
+        break;
+      }
+    }
+    if (k > n) {
+      result(j) = path1;
+    }
+  }
+  return result;
+}
 
 func expand_file_name(_path)
 /* DOCUMENT expand_file_name(path)
@@ -644,7 +799,7 @@ func get_file_name(obj)
      If OBJ is a stream, returns the path name of the file associated with
      the stream.  Otherwise if OBJ is an array of strings, expand leading
      "~" in the elements of OBJ.
-     
+
    SEE ALSO: open, print, expand_file_name, protect_file_name. */
 {
   /* Expand leading "~" if string object. */
@@ -734,15 +889,15 @@ _protect_file_name_list = ['$','&','!','#','?','*',
                            ' ','\t','\r','\n','\v','\f'];
 (_protect_file_name_table = array(char, 256))(1 + _protect_file_name_list) = 1;
 
-func read_ascii(file, compress=)
+func read_ascii(file, compress=, maxcols=)
 /* DOCUMENT read_ascii(file_or_name)
      Reads ascii numeric  data in columns from text  file.  FILE_OR_NAME is
      the name of the  file or an already open file stream.  The result is a
      NCOLUMNS-by-NLINES array of doubles.
 
      Data are  read as double values  arranged in columns  separated by any
-     number of  spaces or tabs.  Comments  starting with a "#"  or an FILEy
-     other character  which is not part of  a number are ignored  up to the
+     number of spaces  or tabs.  Comments starting with a  "#" or any other
+     character  which  is not  part  of  a number  are  ignored  up to  the
      end-of-line.  Blank lines  are ignored.  The first non-blank/commented
      line  gives the  number of  values per  column, for  subsequent lines.
      Subsequent lines  must have  the same number  of columns --  blanks in
@@ -750,15 +905,19 @@ func read_ascii(file, compress=)
      checking  is performed,  and if  the data  is not  really  in columns,
      read_ascii  can silently  fail to  interpret  your file  as you  would
      scanning it by eye.
-     
+
      The  read operation will  be much  faster if  the number  of commented
      lines is  relatively small.   Blank lines cost  nothing, while  a line
      containing just a "#" is expensive.
 
      If the  file is specified by its  name, it may be  compressed in which
-     case it get automatically decompressed while reading (see xopen).
+     case it get automatically decompressed while reading (see xopen).  The
+     value of keyword COMPRESS ("auto" by default) is passed to xopen.
 
-   SEE ALSO: xopen, read. */
+     For very large  data file, keyword MAXCOLS can be  used to specify the
+     expected maximum number of columns (10000 by default).
+
+   SEE ALSO: xopen, read, raw_read. */
 {
   /* open the file if it's not already open */
   if (structof(file) == string)
@@ -766,8 +925,8 @@ func read_ascii(file, compress=)
 
   /* read lines one at a time until the "model" line which
    * determines the number of columns is discovered
-   * assume the number of columns is less than 128 */
-  x = array(0.0, 128);
+   * assume the number of columns is less than MAXCOLS */
+  x = array(double, (is_void(maxcols) ? 10000 : maxcols));
   ncols = 0;
   while ((line = rdline(file))) {
     ncols = sread(line, x);
@@ -777,7 +936,7 @@ func read_ascii(file, compress=)
 
   nrows = 1;
   list = _lst([x(1:ncols)]);
-  x = array(0.0, ncols, 10000/ncols + 1);
+  x = array(double, ncols, 10000/ncols + 1);
   for(;;) {
     /* try to grab at least 10000 numbers from the file
      * blank lines will be skipped, but any comments will
@@ -821,7 +980,7 @@ func load_text(file, compress=)
      automatically decompressed if its  compressed; it is possible to force
      another  behaviour by  specifying a  value different  from  "auto" for
      keyword COMPRESS (see xopen).
-     
+
    SEE ALSO: xopen, rdline, dump_text. */
 {
   if (structof(file) == string)
@@ -843,9 +1002,9 @@ func dump_text(file, text, compress=, level=, preserve=)
 
      If the file  is specified by its name, keyword PRESERVE  can be set to
      true to avoid overwriting an existing file.
-     
+
    SEE ALSO: xopen, rdline, load_text. */
-  
+
 {
   if ((anything = ! is_void(text)) && structof(text) != string)
     error, "expecting array of strings or nil";
@@ -858,7 +1017,7 @@ func dump_text(file, text, compress=, level=, preserve=)
 
 func guess_compression(filename)
 /* DOCUMENT guess_compression, filename;
-       -or- guess_compression(filename)  
+       -or- guess_compression(filename)
      Guess  which compression  program was  used to  produce  file FILENAME
      according to first  bytes of this file.  When  called as a subroutine,
      the file name is printed out  with the name of the compression program
@@ -905,7 +1064,7 @@ func guess_compression(filename)
       if (! am_subroutine()) return 4; /* pack */
       write, format="%s: compressed with \"pack\"\n", filename;
       return;
-    }   
+    }
   } else if (c == 'B' && magic(2) == 'Z' && magic(3) == 'h' &&
              '0' <= (c = magic(4)) && c <= '9') {
     if (! am_subroutine()) return 2; /* bzip2 */
@@ -939,13 +1098,13 @@ func xopen(filename, filemode, preserve=, nolog=, compress=, level=, prims=)
                  end-of-file, existing file preserved
          "rb"  "wb"  "ab"  "r+b"  "rb+"  "w+b"  "wb+"  "a+b"  "ab+"
                  without b means text file, with b means binary file
-     
+
      Keyword COMPRESS can be used  to specify compression method for a text
      file open for reading (FILEMODE="r") or writing (FILEMODE="w") only --
      (de)compression  is unsupported in  append mode  or for  binary files.
      The value of keyword COMPRESS can be a scalar string or an integer:
           "auto"     - guess compression according to first bytes of file
-                       in read  mode, or according to file extension in 
+                       in read  mode, or according to file extension in
                        write mode: ".gz" for gzip, ".bz2" for bzip2 and
                        ".Z" for compress.
        0  "none"     - no (de)compression
@@ -962,7 +1121,7 @@ func xopen(filename, filemode, preserve=, nolog=, compress=, level=, prims=)
      non-zero, the  file must have been compressed.   The compression level
      for gzip  and bzip2  can be  specified as an  integer value  thanks to
      keyword LEVEL.
-       
+
      Keyword PRIMS  can be used  to specify primitives data  type different
      than  the native  ones for  binary files  (PRIMS is  ignored  for text
      files).  PRIMS can  be a scalar string (i.e.,  "alpha", "mac", "sun3",
@@ -976,12 +1135,12 @@ func xopen(filename, filemode, preserve=, nolog=, compress=, level=, prims=)
      Keyword PRESERVE can  be set to true to  avoid overwriting an existing
      file when FILENAME is open for writing (i.e. with a "w" in FILEMODE).
 
-     
+
    BUGS:
      If (de)compression is used, FILENAME must not contain any double quote
      character (").
 
-     
+
    SEE ALSO: close, guess_compression, open, popen, set_primitives. */
 {
   if (is_void(filemode) || filemode == "r") {
@@ -997,7 +1156,7 @@ func xopen(filename, filemode, preserve=, nolog=, compress=, level=, prims=)
     error, "file \""+filename+"\" already exists";
 
   filemode
-  
+
   if (filemode == "w") {
     /* Open file for writing in text mode. */
     compress = __xopen_get_compress(compress, filename, 0);
@@ -1085,6 +1244,146 @@ func __xopen_get_compress(compress, filename, for_reading)
   return -1;
 }
 
+func raw_read(filename, type, .., encoding=, offset=)
+/* DOCUMENT raw_read(filename, type, dimlist, ...)
+ *
+ *   Read binary array of TYPE elements with DIMLIST dimension list
+ *   into file FILENAME and return the array.
+ *
+ *   Keyword OFFSET can be used to set the number of bytes to skip
+ *   prior to reading the data.
+ *
+ *   Keyword ENCODING can be used to change the data encoding of the
+ *   file.  The value of the keyword is a string like:
+ *
+ *      "xdr", "sun"  - eXternal Data Representation (IEEE big endian)
+ *       "native"     - native data representation (i.e. no conversion)
+ *       "i86", "pc"  - IEEE little endian machines
+ *       ...
+ *
+ *   see documentation for "__sun" for a list of supported encodings;
+ *   the default is "native".
+ *
+ *
+ * SEE ALSO: open, _read, __sun, make_dimlist, read_ascii.
+ */
+{
+  /* Get dimension list. */
+  dims = [0];
+  while (more_args()) {
+    make_dimlist, dims, next_arg();
+  }
+
+  /* Open file. */
+  stream = open(filename, "rb");
+  if (! is_void(encoding) && encoding != "native") {
+    symbol = encoding + "_primitives";
+    if (is_func(symbol_exists)) {
+      /* Function 'symbol_exists' is provided by Yeti. */
+      set_encoding = (symbol_exists(symbol) ? symbol_def(symbol) : -1);
+    } else {
+      /* symbol_def will raise an error if symbol does not exists */
+      set_encoding = symbol_def(symbol);
+    }
+    if (is_func(set_encoding) != 1) {
+      error, "bad encoding \""+encoding+"\"";
+    }
+    set_encoding, stream;
+  }
+  save, stream, complex; /* make stream aware of the definition of a complex */
+ 
+  /* Read data. */
+  if (is_void(offset)) {
+    offset = 0L;
+  }
+  data = array(type, dims);
+  if (type == char) {
+    nbytes = _read(stream, offset, data);
+    if (nbytes != numberof(data)) {
+      error, "short file";
+    }
+  } else {
+    _read, stream, offset, data;
+  }
+  return data;
+}
+
+/*---------------------------------------------------------------------------*/
+/* PARSING OF PASSWORD FILE */
+
+local pw_get_user, pw_get_uid, pw_get_gid;
+local pw_get_name, pw_get_home, pw_get_shell;
+/* DOCUMENT pw_get_user(id)          // user name
+ *     -or- pw_get_uid(id)           // user numerical identifier
+ *     -or- pw_get_gid(id)           // group numerical identifier
+ *     -or- pw_get_name(id)          // real user name (from GECOS field)
+ *     -or- pw_get_home(id)          // home directory of user
+ *     -or- pw_get_shell(id)         // path to shell of user
+ *
+ *   These functions return the value(s) of a specific field of password
+ *   entry matching user ID by parsing /etc/passwd file.  If ID is
+ *   unspecified, get_env("USER") is used; otherwise, ID can be a string or
+ *   a numerical identifier.  If ID is specified, it can be a scalar or an
+ *   array and the result has the same geometry as ID.  For a non-existing
+ *   entry (or empty field), the returned value is -1 or the nil-string.
+ *
+ *   Keyword PASSWD can be used to specify another location for the
+ *   password file (default: "/etc/passwd").
+ *
+ *   Keyword SED can be used to specify the path to the 'sed' command
+ *   (default: "sed").
+ *
+ * SEE ALSO: get_env, popen.
+ */
+func pw_get_user (id,sed=,passwd=)
+{ return _pw_get("s/^\\([^:]*\\).*$/\\1/"); }
+func pw_get_uid  (id,sed=,passwd=)
+{ return _pw_get("s/^\\([^:]*:\\)\\{2\\}\\([^:]*\\).*$/\\2/", 1); }
+func pw_get_gid  (id,sed=,passwd=)
+{ return _pw_get("s/^\\([^:]*:\\)\\{3\\}\\([^:]*\\).*$/\\2/", 1); }
+func pw_get_name (id,sed=,passwd=)
+{ return _pw_get("s/^\\([^:]*:\\)\\{4\\}\\([^,:]*\\).*$/\\2/"); }
+func pw_get_home (id,sed=,passwd=)
+{ return _pw_get("s/^\\([^:]*:\\)\\{5\\}\\([^:]*\\).*$/\\2/"); }
+func pw_get_shell(id,sed=,passwd=)
+{ return _pw_get("s/^.*:\\([^:]*\\)$/\\1/"); }
+func _pw_get(script, as_integer)
+/* DOCUMENT _pw_get(script, as_integer)
+     Private function used by pw_get_* functions.
+   SEE ALSO: pw_get_real_name. */
+{
+  extern id, sed, passwd;
+  if (is_void(passwd)) passwd = "/etc/passwd";
+  if (is_void(sed)) sed = "sed";
+  if (is_void(id)) id = get_env("USER");
+  if ((s = structof(id)) == string) {
+    /* user specified by its name */
+    select = swrite(format="^%s:", id);
+    result = (as_integer ? array(-1, dimsof(id)) : id);
+  } else if (s==long || s==int || s==short || s==char) {
+    /* user specified by its numerical ID */
+    select = swrite(format="^[^:]*:[^:]*:%d:", id);
+    result = array((as_integer ? -1 : string), dimsof(id));
+  } else {
+    error, "missing or bad user ID";
+  }
+  if (! open(passwd, "r" , 1)) error, "cannot read password file";
+  format = "%s -e '/%s/!d;%s' '%s'";
+  n = numberof(id);
+  for (i=1;i<=n;++i) {
+    value = rdline(popen(swrite(format=format, sed,
+                                select(i), script, passwd), 0));
+    if (strlen(value)) {
+      if (as_integer) {
+        x = 0;
+        if (sread(value,x) == 1) result(i) = x;
+      } else {
+        result(i) = value;
+      }
+    }
+  }
+  return result;
+}
 
 /*---------------------------------------------------------------------------*/
 /* PDB FILES */
@@ -1094,7 +1393,7 @@ func pdb_list(file)
        -or- pdb_list(file)
      Lists contents of PDB binary file.  FILE can be either a file name or
      a binary stream.
-     
+
    SEE ALSO: createb, openb, restore, pdb_restore_all. */
 {
   if (structof(file) == string) file = openb(file);
@@ -1115,8 +1414,8 @@ func pdb_list(file)
 func pdb_restore_all(_f_i_l_e_)
 /* DOCUMENT pdb_restore_all, file;
      Restore all non-record variables of a PDB file.  FILE can be either a
-     file name or a binary stream. 
-     
+     file name or a binary stream.
+
    SEE ALSO: createb, openb, restore, pdb_list. */
 {
   if (structof(_f_i_l_e_) == string) _f_i_l_e_ = openb(_f_i_l_e_);
@@ -1170,6 +1469,73 @@ func timer_elapsed(count)
 
 /*---------------------------------------------------------------------------*/
 
+func moments(x, mean, variance)
+/* DOCUMENT moments(x)
+ *     -or- moments(x, mean)
+ *     -or- moments(x, mean, variance)
+ *
+ *   Returns the first moments of values in array X as:
+ *
+ *       [MEAN, VARIANCE, SKEWNESS, KURTOSIS]
+ *
+ *   where MEAN and VARIANCE are the mean and variance of the distribution
+ *   sampled by X.  They can be specifed as the 2nd and/or 3rd arguments,
+ *   otherwise sample estimates are used:
+ *
+ *       MEAN = avg(X)
+ *
+ *       VARIANCE = 1/M * sum((x - MEAN)^2)
+ *
+ *   where N = numberof(X) and where M = N, if the mean is provided; or
+ *   M = N - 1, when the sample mean avg(X) is used.  The other moments
+ *   are:
+ *
+ *       SKEWNESS = 1/N * sum(((x - MEAN)/sqrt(VARIANCE))^3)
+ *
+ *       KURTOSIS = 1/N * sum(((x - MEAN)/sqrt(VARIANCE))^4) - 3
+ *
+ *   The skewness is non-dimensional and characterizes the degree of
+ *   asymmetry of a distribution around its mean.  For a Gaussian
+ *   distribution, the standard deviation of the skewness is sqrt(15/N)
+ *   when the true mean is used, and sqrt(6/N) when the mean is estimated
+ *   by the sample mean.
+ *
+ *   The kurtosis is non-dimensional and measures the peakedness or
+ *   flatness of a distribution with respect to a Normal distribution.  For
+ *   a Gaussian distribution, the standard deviation of the kurtosis is
+ *   sqrt(96/N) when the true variance is known and sqrt(24/N) when it is
+ *   the sample estimate.  A distribution with positive kurtosis is termed
+ *   'leptokurtic' and is more peaked than the Normal distribution.  A
+ *   distribution with negative kurtosis is termed 'platykurtic' and is
+ *   more flat than the Normal distribution.  An in-between distribution is
+ *   termed 'mesokurtic'.
+ *
+ * SEE ALSO: avg, rms, median.
+ */
+{
+  n = numberof(x);
+  if (is_void(mean)) {
+    mean = avg(x);
+    m = n - 1;
+  } else {
+    mean += 0.0; /* make sure it is floating point */
+    m = n;
+  }
+  if (mean) {
+    x -= mean;
+  }
+  if (is_void(variance)) {
+    variance = (1.0/m)*sum(x*x);
+  }
+  if (variance != 1) {
+    x *= (1.0/sqrt(variance));
+  }
+  x3 = x*x*x;
+  skewness = (1.0/n)*sum(x3);
+  kurtosis  = (1.0/n)*sum(x*x3) - 3.0;
+  return [mean, variance, skewness, kurtosis];
+}
+
 func _stat_worker(x)
 /* DOCUMENT _stat_worker(x)
      Private routine used by stat, returns vector of double's:
@@ -1220,6 +1586,28 @@ func stat(..)
       write, format="%s, %s\n", typeof(x), strjoin(print(x));
     }
   }
+}
+
+/*---------------------------------------------------------------------------*/
+
+func open_url(url, new=, browser=)
+/* DOCUMENT open_url, url;
+ *   Open URL into existing browser.  Keyword NEW can be set to "tab" or
+ *   anything else on-false to open URL into a new tab or a new window.
+ *   Keyword BROWSER can be set to the path of the browser to use (default:
+ *   "firefox").
+ *
+ * SEE ALSO: system.
+ */
+{
+  if (is_void(browser)) browser = "firefox";
+  if (new) {
+    if (new == "tab")  fmt = "%s -remote 'openURL(%s,new-tab)'";
+    else fmt = "%s -remote 'openURL(%s,new-window)'";
+  } else {
+    fmt = "%s -remote 'openURL(%s)'";
+  }
+  system, swrite(format=fmt, browser, url);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1332,3 +1720,18 @@ func smooth(a, level)
 }
 
 /*---------------------------------------------------------------------------*/
+/* ALTERNATIVE TO YETI BUILTIN FUNCTIONS */
+
+if (! is_func(yeti_init)) {
+  require, "emulate_yeti.i";
+}
+
+/*---------------------------------------------------------------------------*
+ * Local Variables:                                                          *
+ * mode: Yorick                                                              *
+ * tab-width: 8                                                              *
+ * fill-column: 75                                                           *
+ * c-basic-offset: 2                                                         *
+ * coding: latin-1                                                           *
+ * End:                                                                      *
+ *---------------------------------------------------------------------------*/

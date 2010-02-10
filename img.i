@@ -5,25 +5,23 @@
  *
  *-----------------------------------------------------------------------------
  *
- * Copyright (c) 2000-2004, Eric Thiebaut (Centre de Recherches
- *	Astronomiques de Lyon).
+ *      Copyright (C) 2000, Eric Thiebaut <thiebaut@obs.univ-lyon1.fr>
  *
- * This program is free software; you can redistribute it and/or  modify it
- * under the terms of the GNU General Public License  as  published  by the
- * Free Software Foundation; either version 2 of the License,  or  (at your
- * option) any later version.
+ *	This file is free software; you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License version 2 as
+ *	published by the Free Software Foundation.
  *
- * This program is distributed in the hope  that  it  will  be  useful, but
- * WITHOUT  ANY   WARRANTY;   without   even   the   implied   warranty  of
- * MERCHANTABILITY or  FITNESS  FOR  A  PARTICULAR  PURPOSE.   See  the GNU
- * General Public License for more details (to receive a  copy  of  the GNU
- * General Public License, write to the Free Software Foundation, Inc., 675
- * Mass Ave, Cambridge, MA 02139, USA).
+ *	This file is distributed in the hope that it will be useful, but
+ *	WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *-----------------------------------------------------------------------------
  *
  * Routines:
  *	img_dims - returns dimension [WIDTH,HEIGHT] of an image
  *	img_plot - plot an image
  *	img_cbar - add a color to an image plot
+ *      img_convolve - convolution/correlation of images
  *	img_interpolate - bi-linear interpolation of an image
  *	img_extract_parallelogram_as_rectangle - (as its name says)
  *	img_max - get coordinates of maximum in a 2-D array
@@ -39,11 +37,23 @@
  *	img_tmpnam - get name of temporary file
  *
  * History:
- *	$Id: img.i,v 1.2 2008-02-15 18:55:27 frigaut Exp $
+ *	$Id: img.i,v 1.3 2010-02-10 13:27:12 paumard Exp $
  *	$Log: img.i,v $
- *	Revision 1.2  2008-02-15 18:55:27  frigaut
- *	fixed UTF-8 encoding problems (crash yorick-doc on amd64)
+ *	Revision 1.3  2010-02-10 13:27:12  paumard
+ *	- Synchronize files with Eric Thiebaut's: fft_utils.i, img.i, plot.i, utils.i.
+ *	- Import emulate_yeti.i
+ *	- Remove basename() and dirname(), standard in pathfun.i.
+ *	- Remove the accents in Erics name to prevent a crash on amd64.
  *
+ *	Revision 1.6  2008/07/12 06:44:04  eric
+ *	 - Added final comment for setting local variables of Emacs.
+ *
+ *	Revision 1.5  2007/06/29 13:04:34  eric
+ *	 - New function img_convolve.
+ *
+ *	Revision 1.2  2008/02/15 18:55:27  frigaut
+ *	fixed UTF-8 encoding problems (crash yorick-doc on amd64)
+ *	
  *	Revision 1.1.1.1  2007/12/11 23:55:12  frigaut
  *	Initial Import - yorick-yutils
  *	
@@ -86,16 +96,26 @@ func img_dims(img)
 
 func img_plot(img, first=, scale=, cmin=, cmax=, top=)
 /* DOCUMENT img_plot, img;
-     Plot image (2D array) IMG using pli.  Keyword FIRST can be used to set
-     coordinates  of  center  of  first  (lower  left)  pixel,  default  is
+     Plot image IMG using pli.  Keyword FIRST can be used to set
+     coordinates of center of first (lower left) pixel, default is
      FIRST=1.0 (i.e. same coordinates as Yorick's indexing rules).  Keyword
-     SCALE  can  be used  to  set the  step  size  between adjacent  pixels
-     (default is SCALE=1.0).   Keywords FIRST and/or SCALE may  have one or
+     SCALE can be used to set the step size between adjacent pixels
+     (default is SCALE=1.0).  Keywords FIRST and/or SCALE may have one or
      two values depending whether or not both axis have same value.
 
    SEE ALSO pli, img_dims. */
 {
-  dims = img_dims(img);
+  if (is_array(img)) {
+    dims = dimsof(img);
+    ndims = dims(1);
+  }
+  if (ndims == 2) {
+    dims = dims(2:3);
+  } else if (ndims == 3 && structof(img) == char) {
+    dims = dims(3:4);
+  } else {
+    error, "expecting 2-D array or RGB image";
+  }
   if (is_void(scale)) scale = 1.0;
   if (is_void(first)) first = 1.0;
   ll = first - scale/2.0; // lower-left corner coordinates
@@ -108,7 +128,7 @@ func img_cbar(img, cmin=, cmax=, top=,
               format=, color=, width=, height=, ticklen=, font=)
 /* DOCUMENT img_cbar, img;
          or img_cbar, cmin=cmin, cmax=cmax;
-         
+
      Draw a color bar below the  current coordinate system.  If LEVS is not
      specified uses plfc_levs (set by previous call to plfc).  If COLORS is
      specified, it should have one  more value than LEVS, otherwise equally
@@ -138,7 +158,7 @@ func img_cbar(img, cmin=, cmax=, top=,
 
      Keyword TICKLEN  can be used to set  the lenght (in NDC  units) of the
      ticks.  Default is 0.005 NDC.
-     
+
    SEE ALSO: plfc. */
 {
   nil = string(0);
@@ -182,9 +202,9 @@ func img_cbar(img, cmin=, cmax=, top=,
   } else {
     error, "LABS must be nil or an array of strings";
   }
-  
+
   if (is_void(font)) font= "helvetica";
-  if (is_void(vport)) vport = viewport();    
+  if (is_void(vport)) vport = viewport();
   if (is_void(adjust)) adjust = 0.0;
   if (is_void(ticklen)) ticklen = 0.005;
   oldsys = plsys(0); /* _after_ calling viewport() */
@@ -223,7 +243,7 @@ func img_cbar(img, cmin=, cmax=, top=,
   /* FIXME: there is a bug in Yorick, I have to make the colorbar at least 2 pixel wide to
      avoid division by zero in pli... */
   pli, colors, x0, y0, x1, y1;
-  
+
   if (width) {
     plg, [y0,y0,y1,y1,y0], [x0,x1,x1,x0,x0], closed=0,
       width=width, color=color, legend=nil, marks=0, type=1;
@@ -238,10 +258,10 @@ func img_interpolate(z, x, y)
 /* DOCUMENT  img_interpolate(img, x, y)
      Returns image IMG interpolated (by bi-linear interpolation) at
      positions (X,Y).  The coordinates X and Y must be conformable and the
-     result has dimensopn list dimsof(X,Y).  Note that coordinates run like
+     result has dimension list dimsof(X,Y).  Note that coordinates run like
      Yorick indices, for instance (1,1) is the location of the lower-left
      pixel in the image.
-     
+
    SEE ALSO: interp. */
 {
   if (! is_array(z) || (dims = dimsof(z))(1) != 2) {
@@ -289,7 +309,7 @@ func img_extract_parallelogram_as_rectangle(img, x1, y1, x2, y2, x3, y3, w, h)
       and (X3,Y3) is the lower-right corner.  Note that coordinates run
       like Yorick indices: (1,1) is the location of the lower-left pixel in
       the image.
-      
+
    SEE ALSO: img_interpolate, LUsolve. */
 {
   a = LUsolve([[1,0,1,0,1,0],
@@ -331,6 +351,101 @@ func img_fft_centered_at_max(img)
 }
 
 /*---------------------------------------------------------------------------*/
+/* CONVOLUTION/CORRELATION OF IMAGES */
+
+func img_convolve(a, b, unroll=, pad=, correl=)
+/* DOCUMENT img_convolve(a, b)
+ *
+ *   Convolve image B by image A using FFT's.  If Yeti FFTW plugin is
+ *   loaded, FFTW is used; otherwise Yorick's FFT is used.
+ *
+ *   If keyword UNROLL is true, the result is centered at pixel
+ *   ((WIDTH + 1)/2, (HEIGHT + 1)/2) where WIDTH and HEIGHT are the
+ *   dimensuon of the result (and integere division is applied); the
+ *   default is to have the result centered at pixel (1,1) according
+ *   to FFT conventions.
+ *
+ *   If keyword CORREL is true, the correlation of B by A instead of
+ *   the convolution is computed.
+ *
+ *   If keyword PAD is true, then A and B are padded with zeroes to
+ *   match good dimensions for the FFT.  As a special case, with PAD=2
+ *   the padding is such that there is no aliasing in the result,
+ *   i.e. dimensions of the result are such that:
+ *     WIDTH  >= DIMSOF(A)(2) + DIMSOF(B)(2) - 1
+ *     HEIGHT >= DIMSOF(A)(2) + DIMSOF(B)(2) - 1
+ *
+ *
+ * SEE ALSO: fft_best_dim, fft, fftw.
+ */
+{
+  real = (structof(a) != complex && structof(b) != complex);
+  if (pad) {
+    if (! is_array(a) || (adims = dimsof(a))(1) != 2 ||
+        ! is_array(b) || (bdims = dimsof(b))(1) != 2) {
+      error, "expecting 2-D arrays";
+    }
+    if (! is_func(fft_best_dim)) {
+      require, "fft_utils.i";
+    }
+    if (pad == 2) {
+      width = fft_best_dim(adims(2) + bdims(2) - 1);
+      height = fft_best_dim(adims(3) + bdims(3) - 1);
+    } else {
+      width = fft_best_dim(max(adims(2), bdims(2)));
+      height = fft_best_dim(max(adims(3), bdims(3)));
+    }
+    cdims = [2, width, height];
+    if (adims(2) != width || adims(3) != height) {
+      temp = array((real?double:complex), cdims);
+      temp(1:adims(2), 1:adims(3)) = a;
+      a = temp;
+    }
+    if (bdims(2) != width || bdims(3) != height) {
+      temp = array((real?double:complex), cdims);
+      temp(1:bdims(2), 1:bdims(3)) = b;
+      b = temp;
+    }
+    // FIXME: check unroll offsets
+    if (unroll) {
+      off0 = ((adims(2:) - 1)/2);
+      off1 = ((cdims(2:) - 1)/2) - ((bdims(2:) - 1)/2);
+      offset = (correl ? off1 + off0 : off1 - off0);
+    }
+  } else {
+    cdims = dimsof(a, b);
+    if (is_void(cdims)) {
+      error, "non-conformable arrays";
+    }
+    if (unroll) {
+      offset = ((cdims(2:) - 1)/2);
+    }
+  }
+
+  if (is_func(fftw)) {
+    fwd = fftw_plan(cdims, +1, real=real);
+    a = fftw(a, fwd);
+    b = fftw(b, fwd);
+    p = fftw((correl?conj(a):a)*b, fftw_plan(cdims, -1, real=real));
+    a = b = []; // possibly free some memory
+  } else {
+    ws = fft_setup(cdims);
+    a = fft(a, +1, setup=ws);
+    b = fft(b, +1, setup=ws);
+    p = fft((correl?conj(a):a)*b, -1, setup=ws);
+    a = b = []; // possibly free some memory
+    if (real) p = double(p);
+  }
+#if 0
+  p = (1.0/numberof(p))*(unroll?roll(p,offset):p);
+  i = where(p == max(p))(1) - 1;
+  write, format="max at offset: %d %d\n", i%width, i/width;
+  return p;
+#endif
+  return (1.0/numberof(p))*(unroll?roll(p,offset):p);
+}
+
+/*---------------------------------------------------------------------------*/
 
 func img_pad(img, .., bg=, just=)
 /* DOCUMENT img_pad(img)
@@ -343,7 +458,7 @@ func img_pad(img, .., bg=, just=)
 
      The padding value can be specified with keyword BG (for "background"),
      the default is 0.
-     
+
      The type of the result depends on the types of IMG and BG.
 
      The justification is set by keyword JUST:
@@ -402,7 +517,7 @@ func img_pad(img, .., bg=, just=)
     if (h2) new(1:old1-h1, new2-h2+1:new2) = img(h1+1:old1, 1:h2);
     new(1:old1-h1, 1:old2-h2) = img(h1+1:old1, h2+1:old2);
   } else error, "bad value for keyword JUST";
-  
+
   return new;
 }
 
@@ -416,7 +531,7 @@ func img_paste(dst, x, y, src)
      fit  into DST  (e.g.  X  and/or Y  may be  less or  equal  zero).  The
      operation is  done "in-place"  and the result  is returned.   The data
      type of DST is unchanged.
-     
+
   SEE ALSO: img_pad, img_dims. */
 {
   dst_dims = img_dims(dst);
@@ -438,7 +553,7 @@ func img_paste(dst, x, y, src)
         clip = 1n;
       }
       if (clip) src = src(s0:s0+x1-x0,);
-      
+
       /* maybe clip SRC along 2nd dimension */
       if ((clip = y0<1)) {
         s0 = 2 - y0;
@@ -456,6 +571,31 @@ func img_paste(dst, x, y, src)
   return dst;
 }
 
+/*---------------------------------------------------------------------------*/
+
+func img_flatten(a, n)
+{
+  if (! is_array(a)) error, "expecting array argument";
+  dims = dimsof(a);
+  ndims = dims(1);
+  if (ndims <= 2) return a;
+  width = dims(2);
+  height = dims(3);
+  depth = numberof(a)/(width*height);
+  if (is_void(n)) {
+    n = max(1, long(0.5 + sqrt(double(height*depth)/double(width))));
+  }
+  w = n*width;
+  h = ((depth + n - 1)/n)*height;
+  out = array(structof(a), w, h);
+  for (k=0 ; k<depth ; ++k) {
+    i = (k%n)*width;
+    j = (k/n)*height;
+    out(i+1:i+width, j+1:j+height) = a(,,k+1);
+  }
+  return out;
+
+}
 
 
 /*---------------------------------------------------------------------------*/
@@ -490,7 +630,7 @@ func img_photometry(img, x, y, r, bg=)
      they may have any geometry  but must be conformable.  Coordinates have
      the  same  origin  as  array  indices:  the first  pixel  in  IMG  has
      coordinates (1,1).
-     
+
    SEE ALSO dimsof, avg. */
 {
   /* Get dimensions of image and make X, Y and R arrays conformable. */
@@ -551,7 +691,7 @@ func img_flt_max(img, width, uniq=)
   dims = img_dims(img);
   dim1 = dims(1);
   dim2 = dims(2);
-  
+
   /* Filter image to replace pixel value by local maximum value. */
   if (w+1 >= dim1) {
     tmp = img(max,)(-:1:dim1,);
@@ -566,7 +706,7 @@ func img_flt_max(img, width, uniq=)
     for (i=1 ; i<=dim2 ; ++i) lmx(,i) = tmp(,max:max(i-w,1):min(i+w,dim2));
   }
   tmp = [];
-  
+
   /* Get indices of local maxima. */
   i = where(img >= lmx);
   if (! uniq || ! is_array(i)) return i;
@@ -647,7 +787,7 @@ func img_get_type(filename, type=, reading=)
      is true it must be one of the string: "pnm", "jpeg", "png", "tiff",
      "fits", or "gif". Finally if none of this keywords is set, the image
      type is guessed form the file extension.
-     
+
      The returned value is one of:
        1 = IMG_PNM    portable anymap (PBM/PGM/PPM) image;
        2 = IMG_JPEG   JPEG image;
@@ -655,7 +795,7 @@ func img_get_type(filename, type=, reading=)
        4 = IMG_TIFF   TIFF image;
        5 = IMG_FITS   FITS (flexible image transport system) file;
        6 = IMG_GIF    GIF image;
-     
+
    SEE ALSO: img_read, img_write. */
 {
   if (reading) {
@@ -697,7 +837,7 @@ func img_get_type(filename, type=, reading=)
   if (is_void(type)) {
     /* Guess file type from its extension. */
     ext = strpart(filename, -3:0);
-    if (ext == ".png" || ext == ".PNG") return IMG_PNG;    
+    if (ext == ".png" || ext == ".PNG") return IMG_PNG;
     if (ext == ".jpg" || ext == ".JPG") return IMG_JPEG;
     if (ext == ".tif" || ext == ".TIF") return IMG_TIFF;
     if (ext == ".fit" || ext == ".FIT" ||
@@ -715,7 +855,7 @@ func img_get_type(filename, type=, reading=)
   }
   if (type == "pnm") return IMG_PNM;
   if (type == "jpeg") return IMG_JPEG;
-  if (type == "png") return IMG_PNG;    
+  if (type == "png") return IMG_PNG;
   if (type == "tiff") return IMG_TIFF;
   if (type == "fits") return IMG_FITS;
   if (type == "gif") return IMG_GIF;
@@ -734,7 +874,7 @@ func img_read(filename, tmp=)
      (PBM/PBM/PPM), JPEG,  PNG, TIFF,  FITS and GIF.   For some  formats, a
      temporary PNM  image needs  to be created;  the name of  the temporary
      file can be specified with keyword TMP.
-     
+
    SEE ALSO: system, pnm_read, fits_read, img_get_type,
              img_tmpnam, expand_file_name, protect_file_name. */
 {
@@ -758,7 +898,7 @@ func img_read(filename, tmp=)
   }
 
   /* read image as PNM file, possibly after conversion */
-  if (! is_func(pnm_read)) require, "pnm.i";  
+  if (! is_func(pnm_read)) require, "pnm.i";
   if (convert) {
     if (is_void(tmp)) tmp = img_tmpnam(filename);
     if (catch(-1)) {
@@ -780,7 +920,7 @@ func img_write(img, filename, type=, cmin=, cmax=, tmp=, noflip=,
                smooth=, eps=,
                compression=, interlace=, /* transparent=, gamma=, */
                bitpix=)
-/* DOCUMENT img_write, img, filename;   
+/* DOCUMENT img_write, img, filename;
      Writes image IMG into file FILENAME as PNM (PBM/PBM/PPM), JPEG, PNG,
      TIFF or FITS image.  Except for a FITS file, if pixel type of IMG is
      not 'char', the pixel values are scaled to unsigned bytes (0-255) with
@@ -816,11 +956,11 @@ func img_write(img, filename, type=, cmin=, cmax=, tmp=, noflip=,
      Keywords for PNG images:
        COMPRESSION=1-9 - Level of compression (default is 6).
        INTERLACE - Creates an interlaced PNG file.
-       
+
      Keywords for FITS images:
        BITPIX=n - Bits-per-pixel value.
 
-     
+
    SEE ALSO: pnm_write, bytscl, system, img_get_type,
              img_tmpnam, expand_file_name, protect_file_name. */
 {
@@ -890,7 +1030,7 @@ func img_tmpnam(name)
      two programs run at the same time and call the same function) but this
      is highly improbable.  In order to limit the  probabilty of such clash
      to occur, an empty file named NAME~# is created by the function.
-     
+
    SEE ALSO: open. */
 {
   fmt = "%s~%d";
@@ -902,4 +1042,13 @@ func img_tmpnam(name)
   return tmp;
 }
 
-/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*
+ * Local Variables:                                                          *
+ * mode: Yorick                                                              *
+ * tab-width: 8                                                              *
+ * fill-column: 75                                                           *
+ * c-basic-offset: 2                                                         *
+ * coding: latin-1                                                           *
+ * End:                                                                      *
+ *---------------------------------------------------------------------------*/
+
