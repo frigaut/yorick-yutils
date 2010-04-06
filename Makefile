@@ -16,9 +16,14 @@ Y_EXE_SITE=/usr/lib/yorick
 # used for distribution
 PKG_NAME = yutils
 # include files for this package
-PKG_I=astro_util1.i constants.i copy_plot.i detect.i fft_utils.i histo.i idl-colors.i img.i linalg.i lmfit.i plot_demo2.i plot_demo.i plot.i plvp.i poly.i pyk.i random_et.i rdcols.i rgb.i util_fr.i utils.i coords.i doppler.i graphk.i gauss.i tws_button.i tws_field.i tws_grid.i tws.i tws_label.i tws_popup.i tws_radio.i tws_root.i
+PKG_I=astro_util1.i constants.i coords.i copy_plot.i detect.i doppler.i \
+	emulate-yeti.i fft_utils.i gauss.i graphk.i histo.i idl-colors.i img.i \
+	linalg.i lmfit.i moffat.i multiprofile.i plot_demo2.i plot_demo.i \
+	plot.i plvp.i poly.i pyk.i random_et.i rdcols.i rgb.i tws_button.i \
+	tws_field.i tws_grid.i tws.i tws_label.i tws_popup.i tws_radio.i \
+	tws_root.i util_fr.i utils.i
 # autoload file for this package, if any
-PKG_I_START = yutils_start.i
+PKG_I_START = emulate-yeti_start.i yutils_start.i
 
 # override macros Makepkg sets for rules and other macros
 # Y_HOME and Y_SITE in Make.cfg may not be correct (e.g.- relocatable)
@@ -47,7 +52,7 @@ install:
 	cp -p $(PKG_I) $(DEST_Y_SITE)/i/
 	cp -p colors1.tbl $(DEST_Y_SITE)/data/
 	cp -p pyk.py $(DEST_Y_SITE)/python/
-	cp -p yutils_start.i $(DEST_Y_SITE)/i-start/
+	cp -p $(PKG_I_START) $(DEST_Y_SITE)/i-start/
 
 uninstall:
 	-cd $(DEST_Y_SITE)/i; rm $(PKG_I)

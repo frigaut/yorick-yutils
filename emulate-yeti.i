@@ -18,14 +18,21 @@
  *	make_dimlist - build-up dimension list
  *
  * History:
- *	$Id: emulate-yeti.i,v 1.1 2010-02-10 13:27:12 paumard Exp $
+ *	$Id: emulate-yeti.i,v 1.2 2010-04-06 14:21:51 paumard Exp $
  *	$Log: emulate-yeti.i,v $
- *	Revision 1.1  2010-02-10 13:27:12  paumard
+ *	Revision 1.2  2010-04-06 14:21:51  paumard
+ *	- move strlower & strupper from utils.i to emulate-yeti.i;
+ *	- move round from util_fr.i to emulate-yeti.i;
+ *	- round returns a double, like the Yeti implementation;
+ *	- review autoloads (adding emulate-yeti_start.i);
+ *	- add missing files to Makefile.
+ *
+ *	Revision 1.1  2010/02/10 13:27:12  paumard
  *	- Synchronize files with Eric Thiebaut's: fft_utils.i, img.i, plot.i, utils.i.
  *	- Import emulate_yeti.i
  *	- Remove basename() and dirname(), standard in pathfun.i.
  *	- Remove the accents in Erics name to prevent a crash on amd64.
- *
+ *	
  *	Revision 1.1  2007/04/24 06:58:44  eric
  *	Initial revision
  *
@@ -172,6 +179,24 @@ func is_integer_scalar(x)
    SEE ALSO is_scalar, is_integer. */
 { return (((s=structof(x))==long || s==int || s==short || s==char) &&
           ! dimsof(x)(1)); }
+
+func round(arg)
+/* DOCUMENT round(arg)
+ * Returns the rounded version of a floating point argument
+ * modified 2007dec06 to fix problem with negative numbers
+ * F.Rigaut 2001/10, Return double TP 2010/04
+ * SEE ALSO: ceil, floor
+ */
+{return double(long(arg+0.5)-(arg<0));}
+
+// The following requires Yorick >= 1.6.02
+func strlower(s) { return strcase(0, s); }
+func strupper(s) { return strcase(1, s); }
+/* DOCUMENT strlower(s)
+       -or- strupper(s)
+     Convert (array of) string(s) S to lower/upper case letters.
+
+   SEE ALSO strcase */
 
 /*---------------------------------------------------------------------------*/
 

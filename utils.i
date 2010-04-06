@@ -55,9 +55,7 @@
  *	strchr       - forward search for a character in a string
  *	strcut       - cut text to fit into lines of given length
  *	strjoin      - make array of strings into a single string
- *	strlower     - convert string(s) to lower case letters
  *	strrchr      - backward search for a character in a string
- *	strupper     - convert string(s) to upper case letters
  *      strip_file_extension - remove extension from file name
  *	tempfile     - get unique file name
  *	timer_elapsed - get/print the elapsed time since timer_start
@@ -67,14 +65,21 @@
  *	xopen        - extended open with (de)compression, primitives, ...
  *
  * History:
- *	$Id: utils.i,v 1.4 2010-02-10 13:27:12 paumard Exp $
+ *	$Id: utils.i,v 1.5 2010-04-06 14:21:51 paumard Exp $
  *	$Log: utils.i,v $
- *	Revision 1.4  2010-02-10 13:27:12  paumard
+ *	Revision 1.5  2010-04-06 14:21:51  paumard
+ *	- move strlower & strupper from utils.i to emulate-yeti.i;
+ *	- move round from util_fr.i to emulate-yeti.i;
+ *	- round returns a double, like the Yeti implementation;
+ *	- review autoloads (adding emulate-yeti_start.i);
+ *	- add missing files to Makefile.
+ *
+ *	Revision 1.4  2010/02/10 13:27:12  paumard
  *	- Synchronize files with Eric Thiebaut's: fft_utils.i, img.i, plot.i, utils.i.
  *	- Import emulate_yeti.i
  *	- Remove basename() and dirname(), standard in pathfun.i.
  *	- Remove the accents in Erics name to prevent a crash on amd64.
- *
+ *	
  *	Revision 1.24  2008/07/12 06:50:05  eric
  *	 - Changed final comment for setting local variables of Emacs.
  *
@@ -451,14 +456,6 @@ func map(__map__f, __map__x)
 
 /*---------------------------------------------------------------------------*/
 /* STRING ROUTINES */
-
-func strlower(s) { return strcase(0, s); }
-func strupper(s) { return strcase(1, s); }
-/* DOCUMENT strlower(s)
-       -or- strupper(s)
-     Convert (array of) string(s) S to lower/upper case letters.
-
-   SEE ALSO strcase */
 
 func strcut(str, len)
 /* DOCUMENT strcut(str, len)

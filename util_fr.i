@@ -2,7 +2,7 @@
  * util_fr.i
  * A collection of routines for general purpose.
  *
- * $Id: util_fr.i,v 1.3 2008-10-29 15:58:13 paumard Exp $
+ * $Id: util_fr.i,v 1.4 2010-04-06 14:21:51 paumard Exp $
  *
  * Author: Francois Rigaut.
  * Written 2002
@@ -24,7 +24,14 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  * $Log: util_fr.i,v $
- * Revision 1.3  2008-10-29 15:58:13  paumard
+ * Revision 1.4  2010-04-06 14:21:51  paumard
+ * - move strlower & strupper from utils.i to emulate-yeti.i;
+ * - move round from util_fr.i to emulate-yeti.i;
+ * - round returns a double, like the Yeti implementation;
+ * - review autoloads (adding emulate-yeti_start.i);
+ * - add missing files to Makefile.
+ *
+ * Revision 1.3  2008/10/29 15:58:13  paumard
  * utils.i: reform would not work with empty dimlist. Fixed.
  * plot.i, util_fr.i, utils.i: rename functions now standard in Yorick (color_bar, rdfile, reform)
  *
@@ -156,16 +163,6 @@ hitReturn=typeReturn;
 /****************************/
 /* ADDITIONAL MATH function */
 /****************************/
-
-func round(arg) 
-/* DOCUMENT round(arg)
- * Returns the rounded version of a floating point argument
- * modified 2007dec06 to fix problem with negative numbers
- * F.Rigaut 2001/10
- * SEE ALSO: ceil, floor
- */
-{return long(arg+0.5)-(arg<0);}
-
 
 
 func even(arg) 
