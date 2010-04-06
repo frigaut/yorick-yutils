@@ -18,15 +18,18 @@
  *	make_dimlist - build-up dimension list
  *
  * History:
- *	$Id: emulate-yeti.i,v 1.2 2010-04-06 14:21:51 paumard Exp $
- *	$Log: emulate-yeti.i,v $
- *	Revision 1.2  2010-04-06 14:21:51  paumard
+ *	$Id: emulate_yeti.i,v 1.1 2010-04-06 15:36:09 paumard Exp $
+ *	$Log: emulate_yeti.i,v $
+ *	Revision 1.1  2010-04-06 15:36:09  paumard
+ *	- move emulate-yeti*.i to emulate_yeti*.i
+ *
+ *	Revision 1.2  2010/04/06 14:21:51  paumard
  *	- move strlower & strupper from utils.i to emulate-yeti.i;
  *	- move round from util_fr.i to emulate-yeti.i;
  *	- round returns a double, like the Yeti implementation;
  *	- review autoloads (adding emulate-yeti_start.i);
  *	- add missing files to Makefile.
- *
+ *	
  *	Revision 1.1  2010/02/10 13:27:12  paumard
  *	- Synchronize files with Eric Thiebaut's: fft_utils.i, img.i, plot.i, utils.i.
  *	- Import emulate_yeti.i
