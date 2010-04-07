@@ -1,8 +1,8 @@
 autoload, "utils.i", eval;
 autoload, "utils.i", undersample, ndims_of, width_of, height_of, depth_of;
 autoload, "utils.i", spline_zoom, map;
-autoload, "utils.i", strcut, strjoin, strchr, strrchr;
-autoload, "utils.i", is_integer_scalar, is_string_scalar, tempfile, filesize;
+autoload, "utils.i", strcut, strjoin;
+autoload, "utils.i", is_string_scalar, tempfile, filesize;
 autoload, "utils.i", pwd, glob, strip_file_extension;
 autoload, "utils.i", expand_file_name, get_file_name, protect_file_name;
 autoload, "utils.i", read_ascii, load_text, dump_text;

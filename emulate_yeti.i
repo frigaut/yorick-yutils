@@ -8,7 +8,6 @@
  * Routines:
  *	swap         - exchanges contents of two variables.
  *	unref        - returns X, destroying X in the process.
- *	is_scalar    - check if argument is a scalar.
  *	is_vector    - check if argument is a vector.
  *	is_matrix    - check if argument is a matrix.
  *	is_real      - check if argument is of float or double type.
@@ -18,11 +17,15 @@
  *	make_dimlist - build-up dimension list
  *
  * History:
- *	$Id: emulate_yeti.i,v 1.1 2010-04-06 15:36:09 paumard Exp $
+ *	$Id: emulate_yeti.i,v 1.2 2010-04-07 06:15:23 paumard Exp $
  *	$Log: emulate_yeti.i,v $
- *	Revision 1.1  2010-04-06 15:36:09  paumard
- *	- move emulate-yeti*.i to emulate_yeti*.i
+ *	Revision 1.2  2010-04-07 06:15:23  paumard
+ *	- remove strchr, strrchr, is_scalar and is_vector, they are in string.i (beware, no autoloads) ;
+ *	- move is_integer_scalar from utils.i to emulate_yeti.i
  *
+ *	Revision 1.1  2010/04/06 15:36:09  paumard
+ *	- move emulate-yeti*.i to emulate_yeti*.i
+ *	
  *	Revision 1.2  2010/04/06 14:21:51  paumard
  *	- move strlower & strupper from utils.i to emulate-yeti.i;
  *	- move round from util_fr.i to emulate-yeti.i;
@@ -144,16 +147,11 @@ func swap(&a, &b) /* interpreted version */
   eq_nocopy, b, tmp;
 }
 
-func is_scalar(x) { return (is_array(x) && ! dimsof(x)(1)); }
-func is_vector(x) { return (is_array(x) && dimsof(x)(1) == 1); }
 func is_matrix(x) { return (is_array(x) && dimsof(x)(1) == 2); }
-/* DOCUMENT is_scalar(x)
- *     -or- is_vector(x)
- *     -or- is_matrix(x)
- *   These functions return true if X is (respectively) a scalar, a vector
- *   (i.e. a 1-D array), or a matrix (i.e. a 2-D array).
+/* DOCUMENT is_matrix(x)
+ *   Returns true if X is a matrix (i.e. a 2-D array).
  *
- *  SEE ALSO: dimsof, is_array, is_integer.
+ *  SEE ALSO: dimsof, is_array, is_integer, is_scalar, is_vector
  */
 
 func is_integer(x)   {return ((s=structof(x))==long || s==int || s==char ||

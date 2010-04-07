@@ -28,7 +28,6 @@
  *	glob         - get list of files matching glob-style pattern
  *	guess_compression - guess compression method of existing file
  *	height_of    - get 2nd dimension of an array
- *	is_integer_scalar - check if argument is a scalar of integer type
  *	is_string_scalar - check if argument is a scalar string
  *	load_text    - load all lines of a text file
  *	map          - apply function to every elements of array or list
@@ -52,10 +51,8 @@
  *	smooth       - smooth array along its dimensions
  *	spline_zoom  - resize an array by cubic spline interpolation
  *	stat         - display statistics/info about symbols/expressions
- *	strchr       - forward search for a character in a string
  *	strcut       - cut text to fit into lines of given length
  *	strjoin      - make array of strings into a single string
- *	strrchr      - backward search for a character in a string
  *      strip_file_extension - remove extension from file name
  *	tempfile     - get unique file name
  *	timer_elapsed - get/print the elapsed time since timer_start
@@ -65,15 +62,19 @@
  *	xopen        - extended open with (de)compression, primitives, ...
  *
  * History:
- *	$Id: utils.i,v 1.5 2010-04-06 14:21:51 paumard Exp $
+ *	$Id: utils.i,v 1.6 2010-04-07 06:15:23 paumard Exp $
  *	$Log: utils.i,v $
- *	Revision 1.5  2010-04-06 14:21:51  paumard
+ *	Revision 1.6  2010-04-07 06:15:23  paumard
+ *	- remove strchr, strrchr, is_scalar and is_vector, they are in string.i (beware, no autoloads) ;
+ *	- move is_integer_scalar from utils.i to emulate_yeti.i
+ *
+ *	Revision 1.5  2010/04/06 14:21:51  paumard
  *	- move strlower & strupper from utils.i to emulate-yeti.i;
  *	- move round from util_fr.i to emulate-yeti.i;
  *	- round returns a double, like the Yeti implementation;
  *	- review autoloads (adding emulate-yeti_start.i);
  *	- add missing files to Makefile.
- *
+ *	
  *	Revision 1.4  2010/02/10 13:27:12  paumard
  *	- Synchronize files with Eric Thiebaut's: fft_utils.i, img.i, plot.i, utils.i.
  *	- Import emulate_yeti.i
@@ -488,42 +489,14 @@ func strjoin(str, glue)
   }
 }
 
-local strrchr; /* required for the documentation */
-func strchr(s, c)
-/* DOCUMENT strchr(s, c)
-       -or- strrchr(s, c)
-     The strchr (strrchr) function returns the index of the first (last)
-     occurrence of the character C in the string S.  If C is not found an
-     index of zero is returned.  S can be an array of strings, in which
-     case the result is an array of long's.  But C must be a scalar.
-*/
-{
-  i = numberof((index = array(long, dimsof(s)))) + 1;
-  while (--i)
-    if (is_array((j = where(*pointer(s(i)) == c))))
-      index(i) = j(1);
-  return index;
-}
-
-func strrchr(s, c)
-{
-  i = numberof((index = array(long, dimsof(s)))) + 1;
-  while (--i)
-    if (is_array((j = where(*pointer(s(i)) == c))))
-      index(i) = j(0);
-  return index;
-}
-
 /*---------------------------------------------------------------------------*/
 /* LOGICAL ROUTINES */
 
-func is_integer_scalar(x) { return (is_integer(x) && is_scalar(x)); }
 func is_string_scalar(x) { return (is_string(x) && is_scalar(x)); }
-/* DOCUMENT is_integer_scalar(x)
-       -or- is_string_scalar(x)
-     Check whether or not X is an integer/string scalar.
+/* DOCUMENT is_string_scalar(x)
+     Check whether or not X is a string scalar.
 
-   SEE ALSO is_scalar, is_integer. */
+   SEE ALSO is_scalar, is_integer_scalar. */
 
 /*---------------------------------------------------------------------------*/
 /* FILE ROUTINES */
