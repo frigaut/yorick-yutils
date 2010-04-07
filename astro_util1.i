@@ -3,7 +3,7 @@
  *
  * Author: Francois Rigaut
  * Written 2003
- * last revision/addition: 2007
+ * last revision/addition: 2010
  *
  *  Main functions:
  *  ---------------
@@ -25,7 +25,7 @@
  *  starsep(im,p,pixsize=,disp=,boxsize=,nwindow=)
  *  fwhmfit(bim,boxsize=,saturation=,pixsize=,funtype=,...
  *
- * Copyright (c) 2003-2007, Francois Rigaut
+ * Copyright (c) 2003-2010, Francois Rigaut
  *
  * This program is free software; you can redistribute it and/or  modify it
  * under the terms of the GNU General Public License  as  published  by the
@@ -70,8 +70,8 @@ func autocuts(image,&sigma,p=)
 
   subset= subset(sort(subset));
   npt   = numberof(subset);
-  mini  = subset(round(clip(npt*(1.-p),1,npt)));
-  maxi  = subset(round(npt*p));
+  mini  = subset(long(round(clip(npt*(1.-p),1,npt))));
+  maxi  = subset(long(round(npt*p)));
   return clip(image,mini,maxi);
 }
 
