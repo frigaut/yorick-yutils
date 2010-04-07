@@ -62,12 +62,15 @@
  *	xopen        - extended open with (de)compression, primitives, ...
  *
  * History:
- *	$Id: utils.i,v 1.6 2010-04-07 06:15:23 paumard Exp $
+ *	$Id: utils.i,v 1.7 2010-04-07 12:59:45 paumard Exp $
  *	$Log: utils.i,v $
- *	Revision 1.6  2010-04-07 06:15:23  paumard
+ *	Revision 1.7  2010-04-07 12:59:45  paumard
+ *	- utils.i loads yeti.i if present, else emulate_yeti.i
+ *
+ *	Revision 1.6  2010/04/07 06:15:23  paumard
  *	- remove strchr, strrchr, is_scalar and is_vector, they are in string.i (beware, no autoloads) ;
  *	- move is_integer_scalar from utils.i to emulate_yeti.i
- *
+ *	
  *	Revision 1.5  2010/04/06 14:21:51  paumard
  *	- move strlower & strupper from utils.i to emulate-yeti.i;
  *	- move round from util_fr.i to emulate-yeti.i;
@@ -1693,7 +1696,13 @@ func smooth(a, level)
 /* ALTERNATIVE TO YETI BUILTIN FUNCTIONS */
 
 if (! is_func(yeti_init)) {
-  require, "emulate_yeti.i";
+  // first try to load yeti
+  include, "yeti.i", 3;
+  
+  if (! is_func(yeti_init)) {
+    // fall-back to interpreted version of some functions
+    require, "emulate_yeti.i";
+  }
 }
 
 /*---------------------------------------------------------------------------*
