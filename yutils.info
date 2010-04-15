@@ -1,6 +1,6 @@
 Package: yutils
 Kind: package
-Version: 1.3.0
+Version: 1.3.1
 Revision: 2
 Description: Utility library of interpreted routines
 License: GPLv2
@@ -95,7 +95,11 @@ See http://www.maumae.net/yorick for the html help pages.
 5. History
 ----------
   $Log: yutils.info,v $
-  Revision 1.4  2008-01-04 15:05:13  frigaut
+  Revision 1.5  2010-04-15 02:04:42  frigaut
+
+  bumped to version 1.3.1 following round patches from thibaut
+
+  Revision 1.4  2008/01/04 15:05:13  frigaut
   - updated Makefile README yorick-yutils.spec yutils.info to include
   new tws*.i files from thibaut
 

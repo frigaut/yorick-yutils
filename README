@@ -1,4 +1,4 @@
-/* yutil Yorick package, version 1.2.0
+/* yutil Yorick package, version 1.3.1
  *
  * Authors: E.Thiebaut, F.Rigaut, B.Aracil, T.Paumard
  *
@@ -82,7 +82,11 @@ See http://www.maumae.net/yorick for the html help pages.
 5. History
 ----------
   $Log: README,v $
-  Revision 1.4  2008-01-04 15:08:28  frigaut
+  Revision 1.5  2010-04-15 02:04:42  frigaut
+
+  bumped to version 1.3.1 following round patches from thibaut
+
+  Revision 1.4  2008/01/04 15:08:28  frigaut
   - minor reformating
 
   Revision 1.3  2008/01/04 15:05:13  frigaut

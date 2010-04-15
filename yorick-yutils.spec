@@ -1,6 +1,6 @@
 %define name yorick-yutils
-%define version 1.3.0
-%define release gemini2008jan09
+%define version 1.3.1
+%define release gemini2010apr14
 
 Summary: Set of utility interpreted functions for yorick
 Name: %{name}
