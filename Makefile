@@ -57,6 +57,7 @@ install:
 uninstall:
 	-cd $(DEST_Y_SITE)/i; rm $(PKG_I)
 	-rm $(DEST_Y_SITE)/i-start/yutils_start.i
+	-rm $(DEST_Y_SITE)/i-start/emulate_yeti_start.i
 	-rm $(DEST_Y_SITE)/data/colors1.tbl
 	-rm $(DEST_Y_SITE)/python/pyk.py
 

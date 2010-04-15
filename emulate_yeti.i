@@ -17,12 +17,16 @@
  *	make_dimlist - build-up dimension list
  *
  * History:
- *	$Id: emulate_yeti.i,v 1.2 2010-04-07 06:15:23 paumard Exp $
+ *	$Id: emulate_yeti.i,v 1.3 2010-04-15 17:17:37 frigaut Exp $
  *	$Log: emulate_yeti.i,v $
- *	Revision 1.2  2010-04-07 06:15:23  paumard
+ *	Revision 1.3  2010-04-15 17:17:37  frigaut
+ *
+ *	- protected re-definition of new yorick builtins in emulate_yeti.i
+ *
+ *	Revision 1.2  2010/04/07 06:15:23  paumard
  *	- remove strchr, strrchr, is_scalar and is_vector, they are in string.i (beware, no autoloads) ;
  *	- move is_integer_scalar from utils.i to emulate_yeti.i
- *
+ *	
  *	Revision 1.1  2010/04/06 15:36:09  paumard
  *	- move emulate-yeti*.i to emulate_yeti*.i
  *	
@@ -49,6 +53,24 @@
 if (is_func(yeti_init)) {
   error, "This file define functions redundant with Yeti package.";
 }
+
+func is_integer_scalar(x)
+/* DOCUMENT is_integer_scalar(x)
+     Check whether or not X is an integer scalar.
+
+   SEE ALSO is_scalar, is_integer. */
+{ return (((s=structof(x))==long || s==int || s==short || s==char) &&
+          ! dimsof(x)(1)); }
+
+// The following requires Yorick >= 1.6.02
+func strlower(s) { return strcase(0, s); }
+func strupper(s) { return strcase(1, s); }
+/* DOCUMENT strlower(s)
+       -or- strupper(s)
+     Convert (array of) string(s) S to lower/upper case letters.
+
+   SEE ALSO strcase */
+
 
 local make_dimlist;
 func grow_dimlist(&dimlist, arg)
@@ -123,7 +145,12 @@ if (is_func(make_dimlist) != 2) {
   make_dimlist = grow_dimlist; /* for old code */
 }
 
-func unref(&x) /* interpreted version */
+//========================================================================
+// the following are builtin function in yorick 2.1.05x, > april 2010.
+// we will only redefine these functions if they don't already exist
+
+
+func __unref(&x) /* interpreted version */
 /* DOCUMENT unref(x)
      returns X, destroying X in the process (useful to deal with temporary
      big arrays).  Written after Yorick's FAQ.
@@ -134,8 +161,10 @@ func unref(&x) /* interpreted version */
   x = [];
   return y;
 }
+if (typeof(unref)!="builtin") unref=__unref;
 
-func swap(&a, &b) /* interpreted version */
+
+func __swap(&a, &b) /* interpreted version */
 /* DOCUMENT swap, a, b;
      Exchanges  the contents  of variables  A and  B without  requiring any
      temporary copy.
@@ -146,21 +175,25 @@ func swap(&a, &b) /* interpreted version */
   eq_nocopy, a, b;
   eq_nocopy, b, tmp;
 }
+if (typeof(swap)!="builtin") swap=__swap;
 
-func is_matrix(x) { return (is_array(x) && dimsof(x)(1) == 2); }
+
+func __is_matrix(x) { return (is_array(x) && dimsof(x)(1) == 2); }
 /* DOCUMENT is_matrix(x)
  *   Returns true if X is a matrix (i.e. a 2-D array).
  *
  *  SEE ALSO: dimsof, is_array, is_integer, is_scalar, is_vector
  */
+if (typeof(is_matrix)!="builtin") is_matrix=__is_matrix;
 
-func is_integer(x)   {return ((s=structof(x))==long || s==int || s==char ||
+
+func __is_integer(x)   {return ((s=structof(x))==long || s==int || s==char ||
                               s==short);}
-func is_real(x)      {return ((s=structof(x))==double || s==float);}
-func is_complex(x)   {return structof(x)==complex;}
-func is_numerical(x) {return ((s=structof(x))==long || s==double || s==int ||
+func __is_real(x)      {return ((s=structof(x))==double || s==float);}
+func __is_complex(x)   {return structof(x)==complex;}
+func __is_numerical(x) {return ((s=structof(x))==long || s==double || s==int ||
                               s==char || s==complex || s==short || s==float);}
-func is_string(x)    { return structof(x)==string;}
+func __is_string(x)    { return structof(x)==string;}
 /* DOCUMENT is_integer(x)
  *     -or- is_real(x)
  *     -or- is_complex(x)
@@ -172,16 +205,14 @@ func is_string(x)    { return structof(x)==string;}
  *
  * SEE ALSO: structof, dimsof, is_array, is_scalar.
  */
+if (typeof(is_integer)!="builtin")   is_integer   =__is_integer;
+if (typeof(is_real)!="builtin")      is_real      =__is_real;
+if (typeof(is_complex)!="builtin")   is_complex   =__is_complex;
+if (typeof(is_numerical)!="builtin") is_numerical =__is_numerical;
+if (typeof(is_string)!="builtin")    is_string    =__is_string;
 
-func is_integer_scalar(x)
-/* DOCUMENT is_integer_scalar(x)
-     Check whether or not X is an integer scalar.
 
-   SEE ALSO is_scalar, is_integer. */
-{ return (((s=structof(x))==long || s==int || s==short || s==char) &&
-          ! dimsof(x)(1)); }
-
-func round(arg)
+func __round(arg)
 /* DOCUMENT round(arg)
  * Returns the rounded version of a floating point argument
  * modified 2007dec06 to fix problem with negative numbers
@@ -189,16 +220,10 @@ func round(arg)
  * SEE ALSO: ceil, floor
  */
 {return double(long(arg+0.5)-(arg<0));}
+if (typeof(round)!="builtin") round =__round;
 
-// The following requires Yorick >= 1.6.02
-func strlower(s) { return strcase(0, s); }
-func strupper(s) { return strcase(1, s); }
-/* DOCUMENT strlower(s)
-       -or- strupper(s)
-     Convert (array of) string(s) S to lower/upper case letters.
 
-   SEE ALSO strcase */
-
+ 
 /*---------------------------------------------------------------------------*/
 
 #if 0 /* obsolete since Yorick 1.6 */
