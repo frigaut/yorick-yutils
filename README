@@ -61,6 +61,7 @@ Mostly from E.Thiebaut, some from F.Rigaut, B.Aracil and T.Paumard
 ---------------
 
 On a *nix system:
+yorick -batch make.i
 [sudo] make install
 
 On windows, or if you want to do it by hand, do the following:
@@ -82,7 +83,12 @@ See http://www.maumae.net/yorick for the html help pages.
 5. History
 ----------
   $Log: README,v $
-  Revision 1.6  2010-04-15 16:09:18  frigaut
+  Revision 1.7  2010-04-17 19:36:16  frigaut
+
+  added yorick -batch make.i to instructions in README
+  closes SF bug 2892060
+
+  Revision 1.6  2010/04/15 16:09:18  frigaut
 
   - split emulate_yeti_start.i to condition on
     - yeti in path (as per thibaut's changes)
