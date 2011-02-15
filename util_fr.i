@@ -259,8 +259,7 @@ func tic(counterNumber)
   timer,el;
   _nowtime(counterNumber) = el(3);
 }
-extern _nowtime;
- _nowtime = array(double,10);
+if (numberof(_nowtime)!=10) _nowtime = array(double,10);
 
 
 

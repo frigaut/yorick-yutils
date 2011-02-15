@@ -235,6 +235,11 @@ func pltitle_vp(title, adjust, pos=)
    SEE ALSO: plt, xytitles
  */
 {
+  extern pltitle_height_vp;
+
+  // try to solve the problem of pltitle_height_vp once and for all:
+  if (pltitle_height_vp==[]) pltitle_height_vp = array(pltitle_height,100);
+  
   if (is_void(pltitle_margin)) {
     marg=0.;
     csys=1;
