@@ -1,6 +1,6 @@
 Package: yutils
 Kind: package
-Version: 1.5.0
+Version: 1.5.1
 Revision: 2
 Description: Utility library of interpreted routines
 License: GPLv2
@@ -9,7 +9,7 @@ Maintainer: Francois Rigaut <frigaut@users.sourceforge.net>
 OS: architecture independant
 Depends: yorick(>=1.5.10)
 Source: http://www.maumae.net/yorick/packages/tarballs/yutils-%v-pkg.tgz
-Source-MD5: 
+Source-MD5:
 Source-Directory: contrib/
 DocFiles: README TODO VERSION NEWS LEGAL doc/README:README.doc doc/FILE_FORMATS doc/*.doc doc/*.pdf doc/*.ps doc/*.tex
 Homepage: http://www.maumae.net/yorick/yutils/doc/
@@ -79,7 +79,7 @@ On a *nix system:
 On windows, or if you want to do it by hand, do the following:
  a. Copy all files in Y_SITE/contrib/ (create the directory if needed)
  b. Copy yutils_start.i in Y_SITE/i-start/
- 
+
 You may want to run "check.i", as in :
 yorick -i check.i
 at the shell prompt, or start yorick and type
@@ -107,7 +107,7 @@ See http://www.maumae.net/yorick for the html help pages.
   - updated Makefile README yorick-yutils.spec yutils.info to include
   new tws*.i files from thibaut
 
-  
+
   2007dec11:
     * various fixes (sky in astro_utils, round in util_fr)
     * Homogeneized/changed licences to GPLv2
@@ -116,12 +116,12 @@ See http://www.maumae.net/yorick for the html help pages.
     * modified idl-colors.i and pyk.i to search the whole path for include files
     * fixed paths in rgb.i and added error checking.
 
-  2005nov07: 
+  2005nov07:
     * slight updates to plvp.i
     * moved to version 1.1 (from 0.5.3).
 <<
 DescUsage: <<
-See contrib/check-yutils.i for a test suite. Type 
+See contrib/check-yutils.i for a test suite. Type
 "yorick -i check-yutils.i" (in this directory) in a terminal to run it.
 <<
 DescPort: <<

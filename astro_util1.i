@@ -40,7 +40,7 @@
  * Mass Ave, Cambridge, MA 02139, USA).
  *
  *
-*/   
+*/
 
 
 //---------------------------------------------------------
@@ -100,7 +100,7 @@ func sky(image,&sigma,n=)
 
   bg     = median(subset);
   gind   = indgen(numberof(subset));
-  
+
   for (i=1;i<=nit;i++) {
     sigma  = subset(gind)(rms);
     if (sigma==0.) return bg;
@@ -123,12 +123,12 @@ func ct2lst(lng,tz,jd)
      CT2LST(Lng, dummy, JD)
 
      INPUTS:
-     Lng  - The longitude in degrees (east of Greenwich) of the place for 
-     which the local sidereal time is desired, scalar.   The Greenwich 
+     Lng  - The longitude in degrees (east of Greenwich) of the place for
+     which the local sidereal time is desired, scalar.   The Greenwich
      mean sidereal time (GMST) can be found by setting Lng = 0.
-     Tz  - The time zone of the site in hours.  Use this to easily account 
+     Tz  - The time zone of the site in hours.  Use this to easily account
      for Daylight Savings time (e.g. 4=EDT, 5 = EST/CDT), scalar
-     This parameter is not needed (and ignored) if Julian date is 
+     This parameter is not needed (and ignored) if Julian date is
      supplied.
      JD  -  Julian date of time in question, scalar or vector
      use jdcnv to get the Julian date from the year, month and day
@@ -144,14 +144,14 @@ func ct2lst(lng,tz,jd)
      by Jean Meeus, p. 84 (Eq. 11-4) for the constants used.
 
      MODIFICATION HISTORY:
-     Adapted from the FORTRAN program GETSD by Michael R. Greason, STX, 
+     Adapted from the FORTRAN program GETSD by Michael R. Greason, STX,
      27 October 1988.
-     Use IAU 1984 constants Wayne Landsman, HSTX, April 1995, results 
-     differ by about 0.1 seconds  
+     Use IAU 1984 constants Wayne Landsman, HSTX, April 1995, results
+     differ by about 0.1 seconds
      Converted to IDL V5.0   W. Landsman   September 1997
      Longitudes measured *east* of Greenwich   W. Landsman    December 1998
      Converted to Yorick, 2003jan31, F.Rigaut. Restricted to Julian date input
-    
+
      SEE ALSO:
   */
 
@@ -179,32 +179,32 @@ func ct2lst(lng,tz,jd)
 //++++++++++++++++++++++++++++++++++++++++++
 func jdcnv(yr,mn,day,hr)
 {
-  /* DOCUMENT 
+  /* DOCUMENT
      NAME:
      JDCNV
      PURPOSE:
-     Converts Gregorian dates to Julian days   
-   
+     Converts Gregorian dates to Julian days
+
      CALLING SEQUENCE:
      JDCNV, YR, MN, DAY, HR
-   
+
      INPUTS:
-     YR = Year (integer)  
+     YR = Year (integer)
      MN = Month (integer 1-12)
-     DAY = Day  (integer 1-31) 
+     DAY = Day  (integer 1-31)
      HR  = Hours and fractions of hours of universal time (U.T.)
-      	
+
      OUTPUTS:
-     JULIAN = Julian date (double precision) 
-   
+     JULIAN = Julian date (double precision)
+
      EXAMPLE:
      To find the Julian Date at 1978 January 1, 0h (U.T.)
-   
+
      JDCNV, 1978, 1, 1, 0., JULIAN
 
      will give JULIAN = 2443509.5
      NOTES:
-     (1) JDCNV will accept vector arguments 
+     (1) JDCNV will accept vector arguments
      (2) JULDATE is an alternate procedure to perform the same function
 
      REVISON HISTORY:
@@ -212,12 +212,12 @@ func jdcnv(yr,mn,day,hr)
      B. Pfarr, STX, 6/15/88
      Converted to IDL V5.0   W. Landsman   September 1997
      Converted to Yorick F.Rigaut, 2003jan31
-   
+
      SEE ALSO:
   */
 
   // if N_params() LT 5 then begin
-  //	print,'Syntax -  JDCNV, yr, mn, day, hr, julian   
+  //	print,'Syntax -  JDCNV, yr, mn, day, hr, julian
   //	print,'   yr - Input Year (e.g. 1978), scalar or vector
   //	print,'   mn - Input Month (1-12), scalar or vector
   //	print,'   day - Input Day (1-31), scalar or vector
@@ -250,7 +250,7 @@ func altaz(ha, dec, lat, &alt, &az)
   arg3 =  sd*sl + cd*ch*cl;
 
   alt = asin(arg3);
-  az  = atan(arg1,arg2); 
+  az  = atan(arg1,arg2);
 
   // Convert back to degrees
   alt = alt/rpd;
@@ -284,6 +284,7 @@ func sigmaFilter(image,nsigma,iter=,silent=)
    iter  : Keyword, number of iterations. Recommended value : 3-5
    silent: No verbose
    F.Rigaut 2001/10
+   THIS FUNCTION IS OBSOLETE. SUPERSEEDED BY sigfil() (imutil)
    SEE ALSO: deadpix
 */
 
@@ -302,7 +303,7 @@ func sigmaFilter(image,nsigma,iter=,silent=)
  restart:
   arim	= array(float,sx*sy,nd);
   ind	= indgen(sx*sy);
-  for (i=1;i<=nd;i++) 
+  for (i=1;i<=nd;i++)
     {
       vind = long(clip(ind+d(i),1,sx*sy));
       arim(,i) = im(vind);
@@ -312,10 +313,10 @@ func sigmaFilter(image,nsigma,iter=,silent=)
   av	= arim(,avg);
   st	= arim(,rms);
   ind	= where( abs(im-av) > nsigma*st );
-  bpm 	= long(im)*0 ; 
+  bpm 	= long(im)*0 ;
   im	= reform(im,sx,sy);
-  if (is_array(ind)) 
-    { 
+  if (is_array(ind))
+    {
       bpm(ind) = 1;
       bpm	= reform(bpm,sx,sy);
       im	= deadpix(im,bpm,silent=silent);
@@ -324,6 +325,7 @@ func sigmaFilter(image,nsigma,iter=,silent=)
     }
   return im;
 }
+if (is_func(sigfil)) sigmaFilter=sigfil;
 
 //++++++++++++++++++++++++++++++++++
 
@@ -332,9 +334,10 @@ func deadpix(image,bpm,silent=)
    Correction of bad pixels in an image by averaging the (good) neighbors.
    image	= 2D array
    bpm   = 2D array
-   bad pixel map has the same dimension as image, and is 1 at the 
+   bad pixel map has the same dimension as image, and is 1 at the
    location of a bad pixel
    F.Rigaut 2001/10
+   THIS FUNCTION IS OBSOLETE. SUPERSEEDED BY dpc() (imutil)
    SEE ALSO: sigma_filter
 */
 
@@ -343,7 +346,7 @@ func deadpix(image,bpm,silent=)
   im	= image*(1-bpm);
   s	= dimsof(image);
   sx	= s(2); sy = s(3);
-  while (sum(bpm) != 0) 
+  while (sum(bpm) != 0)
     {
       bind	= where(bpm);
       if (!is_set(silent)) {write,format="%i bad pixels to process\n",numberof(bind);}
@@ -368,13 +371,14 @@ func deadpix(image,bpm,silent=)
       avv	= (im(ind))(,sum)/clip(float(hmg),0.5,);
       // avv is a vector that contains the average of the good neighbors
       wok	= where(hmg >= 3);
-      // wok = list of indices in bind for which there 
+      // wok = list of indices in bind for which there
       // is at least 3 good neighbors
       im(bind(wok)) = avv(wok);  // replace bad pixels
       bpm(bind(wok)) = 0;  // update bad pixel map
     }
   return im;
 }
+if (is_func(dpc)) deadpix=dpc;
 
 //+++++++++++++++++++++++++++
 
@@ -386,7 +390,7 @@ func makeflat(biasfile,flatfiles)
    F.Rigaut, 2001/11/10.
    SEE ALSO: makebias.
 */
-  
+
 {
   print,"Reading arrays, assuming Unsigned Integers";
   bias = float(fits_read(biasfile));
@@ -401,14 +405,14 @@ func makeflat(biasfile,flatfiles)
   print,"Computing Median of cube";
   flat = median(cube,3);
   flat = float(flat)/median(median(flat));  // to reduce cpu time req
-  return flat;  
+  return flat;
 }
 
 //+++++++++++++++++++++++++++
 
 func makebias(biasfiles)
 /* DOCUMENT function makebias(biasfiles)
-   Build bias image from a serie of biasfiles (string containing 
+   Build bias image from a serie of biasfiles (string containing
    the file names). Does NOT save the resulting bias.
    F.Rigaut, 2001/11/10.
    SEE ALSO: makeflat.
@@ -458,7 +462,7 @@ func gaussianRound(x,a)
   yp		= x(,,2)-a(4);
   z			= exp(-((xp/a(5))^2.+(yp/a(5))^2.));
   s     = sum(z);
-  if (s==0) return a(1); 
+  if (s==0) return a(1);
   z			= a(1)+a(2)*z/s;
   return z;
 }
@@ -473,7 +477,7 @@ func gaussian(x,a)
   r			= sqrt(xp^2.+yp^2.);
   z			= exp(-((xp/a(5))^2.+(yp/a(6))^2.));
   s     = sum(z);
-  if (s==0) return a(1); 
+  if (s==0) return a(1);
   z			= a(1)+a(2)*z/s;
   return z;
 }
@@ -487,7 +491,7 @@ func moffatRound(x,a)
   yp = x(,,2)-a(4);
   z = (1. + ((xp/a1)^2.+(yp/a1)^2.))^(-a(6));
   s     = sum(z);
-  if (s==0) return a(1); 
+  if (s==0) return a(1);
   z = a(1)+a(2)*z/s;
   return z;
 }
@@ -503,7 +507,7 @@ func moffat(x,a)
   yp = (x(,,1)-a(3))*sin(alpha)+(x(,,2)-a(4))*cos(alpha);
   z = (1. + ((xp/a1)^2.+(yp/a2)^2.))^(-a(8));
   s     = sum(z);
-  if (s==0) return a(1); 
+  if (s==0) return a(1);
   z = a(1)+a(2)*z/s;
   return z;
 }
@@ -533,14 +537,14 @@ func starsep(im,p,pixsize=,disp=,boxsize=,nwindow=)
    Use disp=2 to just set up the small fit/residual window)
 
    boxsize,nwindow: see fwhmfit manpage
-   
+
    SEE ALSO: fwhmfit
  */
 {
   extern _starsepxref,_starsepyref;
 
   if (is_void(disp)) disp=0;
-  
+
   if (p==0) {
     r = fwhmfit(im,oneshot=1,disp=disp,silent=1,boxsize=boxsize,nwindow=nwindow);
     _starsepxref=r.xpos(0);
@@ -563,11 +567,13 @@ func starsep(im,p,pixsize=,disp=,boxsize=,nwindow=)
   }
 }
 
-func fwhmfit(bim,boxsize=,saturation=,pixsize=,funtype=,\
+func fwhmfit(bim,xs,ys,boxsize=,saturation=,pixsize=,funtype=,\
              magswitch=,nwindow=,silent=,airmass=,disp=,oneshot=,dpi=)
 /* DOCUMENT func fwhmfit(image,boxsize=,saturation=,pixsize=,funtype=,magswitch=,
                          nwindow=,silent=,airmass=,disp=,oneshot=,dpi=)
-   image      = 2D image
+   bim        = 2D image
+   xs         = [optional] X coordinates
+   ys         = [optional] Y coordinates
    boxsize    = Specify the size of the box of sub-images
                 (usually 4-10 times the fwhm)
    saturation = Saturation value (prevents picking saturated stars)
@@ -669,22 +675,26 @@ func fwhmfit(bim,boxsize=,saturation=,pixsize=,funtype=,\
   }
 
   do {
-    res	= mouse(1,0,"");
-    c = long(res(1:2));
-    but	 = res(10);
-    if (but == 3) break;
-    if (but == 2) {
-      if (numberof(el) == 1) {
-        write,"You can only unbuffer after having buffered at least one star!";
+    if (xs==[]) {
+      res	= mouse(1,0,"");
+      c = long(res(1:2));
+      but	 = res(10);
+      if (but == 3) break;
+      if (but == 2) {
+        if (numberof(el) == 1) {
+          write,"You can only unbuffer after having buffered at least one star!";
+          continue;
+        }
+        f = f(,:-1);
+        ferr = ferr(,:-1);
+        el = el(:-1);
+        eler = eler(:-1);
+        an = an(:-1);
+        write,"Last measurement taken out of star list";
         continue;
       }
-      f = f(,:-1);
-      ferr = ferr(,:-1);
-      el = el(:-1);
-      eler = eler(:-1);
-      an = an(:-1);
-      write,"Last measurement taken out of star list";
-      continue;
+    } else {
+      c = _(xs(1),ys(1));
     }
 
     i1 = clip(c(1)-b,1,);
@@ -798,7 +808,7 @@ func fwhmfit(bim,boxsize=,saturation=,pixsize=,funtype=,\
       write,format="%7.2f %7.2f %5.2f+/-%4.2f %5.2f+/-%4.2f  %9.1f  %4.2f %6.2f %6.1f\n",
         pos(1),pos(2),fwhm(1),fwhmerr(1),fwhm(2),fwhmerr(2),flux,ellip,angle,maxim;
     }
-		
+
     res = fwhmfitres(xpos=pos(1),xposerr=err(3),ypos=pos(2),yposerr=err(4),
                      xfwhm=fwhm(1),xfwhmerr=fwhmerr(1),yfwhm=fwhm(2),yfwhmerr=fwhmerr(2),
                      flux=flux,fluxerr=err(2),sky=a(1),skyerr=err(1),
@@ -835,4 +845,3 @@ func fwhmfit(bim,boxsize=,saturation=,pixsize=,funtype=,\
   }
   return allres;
 }
-

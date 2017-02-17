@@ -1,5 +1,5 @@
 %define name yorick-yutils
-%define version 1.5.0
+%define version 1.5.1
 %define release gemini2010apr14
 
 Summary: Set of utility interpreted functions for yorick
@@ -68,7 +68,7 @@ mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/python
 mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/i-start
 mkdir -p $RPM_BUILD_ROOT/usr/share/doc/yorick-yutils
 mkdir -p $RPM_BUILD_ROOT/usr/lib/yorick/packages/installed
-        
+
 install -m 644 *.i $RPM_BUILD_ROOT/usr/lib/yorick/i
 install -m 644 colors1.tbl $RPM_BUILD_ROOT/usr/lib/yorick/data
 install -m 644 *.py $RPM_BUILD_ROOT/usr/lib/yorick/python
@@ -115,4 +115,3 @@ rm -rf $RPM_BUILD_ROOT
 
 * Thu Dec  6 2007 <frigaut@users.sourceforge.net>
 - 1.1.03gemini Fixes bug in round() for negative numbers
-
